@@ -27,7 +27,7 @@ class SideFrame(ctk.CTkFrame):
         
 class AllAirplanesFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
-        super().__init__(master, **kwargs,height=700,width=1150)
+        super().__init__(master, **kwargs,height=700,width=1150,fg_color='white')
         
         self.grid_columnconfigure((0,1,2),weight=1)
         self.grid_rowconfigure(0,weight=1)
@@ -35,13 +35,13 @@ class AllAirplanesFrame(ctk.CTkFrame):
         self.grid_rowconfigure(2,weight=10)
 
         self.manufactureresFrame=ManufacturersFrame(self)
-        self.manufactureresFrame.grid(column=0,row=2,sticky='we')
+        self.manufactureresFrame.grid(column=0,row=2,sticky='we',padx=20,pady=20)
 
         self.modelsPlaceHolderFrame=ModelsPlaceHolderFrame(self)
-        self.modelsPlaceHolderFrame.grid(column=1,row=2,sticky='we')
+        self.modelsPlaceHolderFrame.grid(column=1,row=2,sticky='we',padx=20,pady=20)
 
         self.airplanesPlaceHolderFrame=AirplanesPlaceHolderFrame(self)
-        self.airplanesPlaceHolderFrame.grid(column=2,row=2,sticky='we')
+        self.airplanesPlaceHolderFrame.grid(column=2,row=2,sticky='we',padx=20,pady=20)
 
         self.lblManufacturers=ctk.CTkLabel(self,text='MANUFACTURER',font=ctk.CTkFont(size=20,weight='bold'))
         self.lblModels=ctk.CTkLabel(self,text='MODELS',font=ctk.CTkFont(size=20,weight='bold'))
@@ -58,8 +58,8 @@ class AllAirplanesFrame(ctk.CTkFrame):
         self.lblSelectedModelVal=ctk.CTkLabel(self,textvariable=self.SelectedModel,font=ctk.CTkFont(size=15,slant='italic'))
 
 
-        self.lblSelectedManufacturerVal.grid(row=1,column=1)
-        self.lblSelectedModelVal.grid(row=1,column=2)
+        self.lblSelectedManufacturerVal.grid(row=1,column=1,padx=5)
+        self.lblSelectedModelVal.grid(row=1,column=2,padx=5)
 
 
 
@@ -67,16 +67,18 @@ class AllAirplanesFrame(ctk.CTkFrame):
 
 class ManufacturersFrame(ctk.CTkScrollableFrame):
     def __init__(self, master, **kwargs):
-        super().__init__(master, **kwargs,height=700,width=380)
+        super().__init__(master, **kwargs,height=700,width=380,fg_color='white')
          
-        ManufacturerImage=ctk.CTkImage(light_image=PIL.Image.open(r'Images\Boeing.jpeg'),size=(150,150))
+        ManufacturerImage=ctk.CTkImage(light_image=PIL.Image.open(r'Images\6131.webp'),size=(250,150))
         for manufacturer in ['Boeing','Airbus','Cirrus','Piper','Cessna']:
             btn=ctk.CTkButton(self,image=ManufacturerImage,
                               text=manufacturer,
                               command=lambda m=manufacturer:self.SelectNewManufacturer(m),
                               fg_color='transparent',
                               text_color='black',
-                              corner_radius=3)
+                              corner_radius=3,
+                              compound='top',
+                              hover_color='lightgrey')
             btn.pack(pady=20,padx=30,fill='x')
 
     def SelectNewManufacturer(self,manufacturer):
@@ -102,11 +104,18 @@ class AirplanesPlaceHolderFrame(ctk.CTkFrame):
         self.airplanesFrame=None
 class ModelsFrame(ctk.CTkScrollableFrame):
     def __init__(self, master,manufacturer, **kwargs):
-        super().__init__(master, **kwargs,height=700,width=380)
-        ModelImage=ctk.CTkImage(light_image=PIL.Image.open(r'Images\737.jpeg'),size=(150,150))
+        super().__init__(master, **kwargs,height=700,width=380,fg_color='white')
+        ModelImage=ctk.CTkImage(light_image=PIL.Image.open(r'Images\737.jpeg'),size=(250,200))
         for model in ModelData.values():
             if model["Manufacturer"].lower()==manufacturer.lower():
-                btn=ctk.CTkButton(self,image=ModelImage,text=model["Model"],command=lambda m=model["Model"]:self.SelectNewModel(m))
+                btn=ctk.CTkButton(self,
+                                  image=ModelImage,
+                                  text=model["Model"],
+                                  command=lambda m=model["Model"]:self.SelectNewModel(m),
+                                  fg_color='transparent',
+                                  compound='top',
+                                  text_color='black',
+                                  hover_color='lightgrey')
                 btn.pack()
 
     def SelectNewModel(self,model):

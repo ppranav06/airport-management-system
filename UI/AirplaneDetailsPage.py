@@ -7,9 +7,7 @@ AirplaneData=Data.Airplanes
 
 class AirplaneDetailsPage(ctk.CTkFrame):
     def __init__(self, master,RegistrationNumber, **kwargs):
-        super().__init__(master, **kwargs,
-                         height=700,
-                         width=1400)
+        super().__init__(master, **kwargs,height=700,width=1400)
         
         self.AirplaneDetails=AirplaneDetailsFrame(self,RegistrationNumber)
         self.AirplaneDetails.pack(side=ctk.LEFT)

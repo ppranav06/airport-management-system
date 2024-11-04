@@ -10,6 +10,7 @@ class HomePage(ctk.CTkFrame):
         self.bgImageCanvas.place(x=0,y=0)
 
         buttonFont=ctk.CTkFont(size=20,family='Eras Light ITC')
+        # buttonFont=ctk.CTkFont(size=16,family='Tahoma')
 
         self.btnAircrafts=ctk.CTkButton(self,
                                         text='Aircrafts',
