@@ -95,6 +95,35 @@ class TestRow(ctk.CTkFrame):
         self.lblTestPeriodicityVal.grid(column=3,row=0)
         self.btnDescriptionVal.grid(column=4,row=0)
 
+        self.txtTestName=ctk.CTkEntry(self,textvariable=self.newTestName)
+        self.txtTestMaxScore=ctk.CTkEntry(self,textvariable=self.newMaxScore)
+        self.txtTestPeriodicity=ctk.CTkEntry(self,textvariable=self.newPeriodicity)
+
+    def Edit(self):
+        self.newTestName.set(self.TestName.get())
+        self.newMaxScore.set(self.MaxScore.get())
+        self.newPeriodicity.set(self.Periodicity.get())
+        
+        self.lblTestNameVal.grid_forget()
+        self.lblTestMaxScoreVal.grid_forget()
+        self.lblTestPeriodicityVal.grid_forget()
+        
+        self.txtTestName.grid(row=0,column=1)
+        self.txtTestMaxScore.grid(row=0,column=2)
+        self.txtTestPeriodicity.grid(row=0,column=3)
+
+    def Save(self):
+        self.TestName.set(self.newTestName.get())
+        self.MaxScore.set(self.newMaxScore.get())
+        self.Periodicity.set(self.newPeriodicity.get())
+        
+        self.txtTestName.grid_forget()
+        self.txtTestMaxScore.grid_forget()
+        self.txtTestPeriodicity.grid_forget()
+        
+        self.lblTestNameVal.grid(row=0,column=1)
+        self.lblTestMaxScoreVal.grid(row=0,column=2)
+        self.lblTestPeriodicityVal.grid(row=0,column=3)
         
 
 class TestRowExpansion(ctk.CTkFrame):
@@ -118,8 +147,11 @@ class TestRowExpansion(ctk.CTkFrame):
         self.btnLess=ctk.CTkButton(self,text='less',command=lambda:self.master.ShowLess(TestNo))
         self.btnLess.grid(column=3,row=0,sticky='w')
 
-        self.btnEdit=ctk.CTkButton(self,text='Edit')
+        self.btnEdit=ctk.CTkButton(self,text='Edit',command=self.master.TestRows[TestNo].Edit)
         self.btnEdit.grid(column=4,row=0)
+
+        self.btnEdit=ctk.CTkButton(self,text='Save',command=self.master.TestRows[TestNo].Save)
+        self.btnEdit.grid(column=5,row=0)
 
 class DescriptionBox(ctk.CTkFrame):
     def __init__(self, master,TestNo, **kwargs):
