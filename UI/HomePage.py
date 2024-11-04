@@ -36,7 +36,8 @@ class HomePage(ctk.CTkFrame):
                                         text_color='white',
                                         corner_radius=1,
                                         hover_color='grey',
-                                        font=buttonFont)
+                                        font=buttonFont,
+                                        command=lambda:self.master.LoadTestsPage())
 
         self.btnAircrafts.place(x=1080,y=400)
         self.btnTechnicians.place(x=1080,y=440)

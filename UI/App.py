@@ -2,6 +2,7 @@ import customtkinter as ctk
 from .AllAirplaneDetailsPage import AllAirplanesPage
 from .AirplaneDetailsPage import AirplaneDetailsPage
 from .TechnicianDetailsPage import TechnicianDetailsPage
+from .AllTestsPage import AllTestsPage
 from .HomePage import HomePage
 
 class App(ctk.CTk):
@@ -14,6 +15,7 @@ class App(ctk.CTk):
 
         self.allAirplanesPage=AllAirplanesPage(self)
         self.homePage=HomePage(self)
+        self.testsPage=AllTestsPage(self)
         self.LoadHomePage()
         # self.allTechnicianDetailsPage=AllTechnicianDetailsPage(self,1)                    #yet to create
 
@@ -38,3 +40,7 @@ class App(ctk.CTk):
     def LoadHomePage(self):
         self._ClearRootWindow()
         self.homePage.pack()
+
+    def LoadTestsPage(self):
+        self._ClearRootWindow()
+        self.testsPage.pack()
