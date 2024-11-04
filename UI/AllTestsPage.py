@@ -28,17 +28,48 @@ class AllTestsFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=1150,fg_color='white')
 
-        for i in range(10):
-            testrow=TestsFrame(self,100)
-            testrow.pack(fill='x',pady=3)
+        testrow=TestsFrame(self,100)
+        testrow.pack(fill='x',pady=3)
+
+        self.btnInsert=ctk.CTkButton(self,text='Create New Test',command=self.PackInsertFrame)
+        self.btnInsert.pack()
+
+    def PackInsertFrame(self):
+        self.insertFrame=InsertRow(self)
+        self.insertFrame.pack()
+        self.btnInsert.pack_forget()
+
+class InsertRow(ctk.CTkFrame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs,width=1150,height=50)
+
+        self.btnInsert=ctk.CTkButton(self,text='Create')
+        self.btnCancel=ctk.CTkButton(self,text='Cancel')
+
+
         
-# class TestRow(ctk.CTkFrame):
-#     def __init__(self, master, **kwargs):
-#         super().__init__(master, **kwargs,height=30,width=1150)
-#         self.grid_columnconfigure((0,1),weight=1)
-#         self.lblTestVal=ctk.CTkLabel(self,text='Test1',width=1150)
-        
-#         self.lblTestVal.grid(row=0,column=0)
+        self.grid_columnconfigure(0, weight=1,uniform='a')
+        self.grid_columnconfigure(1, weight=1,uniform='a')
+        self.grid_columnconfigure(2, weight=1,uniform='a')
+        self.grid_columnconfigure(3, weight=1,uniform='a')
+        self.grid_columnconfigure(4, weight=1,uniform='a')
+        self.grid_columnconfigure(5, weight=1,uniform='a')
+
+        self.btnInsert.grid(column=4,row=0)
+        self.btnCancel.grid(column=5,row=0)
+
+        self.txtTestId=ctk.CTkEntry(self,placeholder_text="Test Id")
+        self.txtTestName=ctk.CTkEntry(self,placeholder_text="Test Name")
+        self.txtTestMaxScore=ctk.CTkEntry(self,placeholder_text="Max Score")
+        self.txtTestPeriodicity=ctk.CTkEntry(self,placeholder_text="Periodicity")
+        self.txtDescription=ctk.CTkTextbox(self,height=300,width=500)
+        self.txtDescription.insert("0.0","Description")
+
+        self.txtTestId.grid(row=0,column=0)
+        self.txtTestName.grid(row=0,column=1)
+        self.txtTestMaxScore.grid(row=0,column=2)
+        self.txtTestPeriodicity.grid(row=0,column=3)
+        self.txtDescription.grid(row=1,column=0)
 
 class HeadingRow(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
@@ -132,6 +163,7 @@ class TestRowExpansion(ctk.CTkFrame):
                          width=1150,
                          height=300)
         
+        self.TestNo=TestNo
         self.grid_columnconfigure(0,weight=0)
         self.grid_columnconfigure(1,weight=2)
         self.grid_columnconfigure(2,weight=2)
@@ -141,17 +173,28 @@ class TestRowExpansion(ctk.CTkFrame):
         # self.extraDetails=ExtraDetails(self,TestNo)
         # self.extraDetails.grid(column=1,row=0,pady=10,sticky='e',padx=20)
 
-        self.lblDescriptionBox=DescriptionBox(self,TestNo)
-        self.lblDescriptionBox.grid(column=2,row=0,sticky='nsw',pady=10)
+        self.descriptionBox=DescriptionBox(self,TestNo)
+        self.descriptionBox.grid(column=2,row=0,sticky='nsw',pady=10)
 
         self.btnLess=ctk.CTkButton(self,text='less',command=lambda:self.master.ShowLess(TestNo))
         self.btnLess.grid(column=3,row=0,sticky='w')
 
-        self.btnEdit=ctk.CTkButton(self,text='Edit',command=self.master.TestRows[TestNo].Edit)
+        self.btnEdit=ctk.CTkButton(self,text='Edit',command=self.Edit)
         self.btnEdit.grid(column=4,row=0)
 
-        self.btnEdit=ctk.CTkButton(self,text='Save',command=self.master.TestRows[TestNo].Save)
-        self.btnEdit.grid(column=5,row=0)
+        self.btnSave=ctk.CTkButton(self,text='Save',command=self.Save)
+
+    def Save(self):
+        self.master.TestRows[self.TestNo].Save()
+        self.btnSave.grid_forget()
+        self.btnEdit.grid(column=4,row=0)
+        self.descriptionBox.Save()
+
+    def Edit(self):
+        self.master.TestRows[self.TestNo].Edit()
+        self.btnEdit.grid_forget()
+        self.btnSave.grid(column=4,row=0)
+        self.descriptionBox.Edit()
 
 class DescriptionBox(ctk.CTkFrame):
     def __init__(self, master,TestNo, **kwargs):
@@ -164,11 +207,33 @@ class DescriptionBox(ctk.CTkFrame):
         self.lblDescription=ctk.CTkLabel(self,text='Description',anchor='w')
         self.lblDescription.pack(fill='x',padx=5)
 
-        self.lblDescriptionVal=ctk.CTkLabel(self,text='This is a Test done to make sure that the engine is\n running fine and all okkkkkkkkkk okkkkk and okkkkkkkkk !!!!',
-                                            anchor='w',
-                                            justify='left')
-        self.lblDescriptionVal.pack(fill='both',padx=5)
+        self.Description='This is a Test done to make sure that the engine is\n running fine and all okkkkkkkkkk okkkkk and okkkkkkkkk !!!!'
+
+        # self.lblDescriptionVal=ctk.CTkLabel(self,textvariable=self.Description,anchor='w',justify='left')
+        # self.lblDescriptionVal.pack(fill='both',padx=5)
+
         
+        self.txtDescription=ctk.CTkTextbox(self,height=170,width=350,text_color='black')
+        self.txtDescription.pack(fill='both')
+        self.txtDescription.insert("0.0", self.Description)
+        self.txtDescription.configure(state='disabled')
+        # self.txtDescription.insert("0.0","a\n")
+
+    def Edit(self):
+        self.txtDescription.configure(state='normal')
+        # self.txtDescription.delete("0.0", "end")
+        # self.txtDescription.insert("0.0", self.Description)
+        # self.newDescription=self.Description
+        # self.lblDescriptionVal.pack_forget()
+        # self.txtDescription.pack(fill='both',padx=5)
+        # self.configure(fg_color='transparent')
+        
+    def Save(self):
+        self.txtDescription.configure(state='disabled')
+        # self.Description=self.txt
+        # self.txtDescription.pack_forget()
+        # self.lblDescriptionVal.pack(fill='both',padx=5)
+        # self.configure(fg_color='white')
 
     
 class ExtraDetails(ctk.CTkFrame):
@@ -178,36 +243,17 @@ class ExtraDetails(ctk.CTkFrame):
                          height=200,
                          corner_radius=5)
         
-        self.lblProposedDate=ctk.CTkLabel(self,text="Proposed Date",
-                                          anchor='w',
-                                          justify='left')
-        self.lblActualTestDate=ctk.CTkLabel(self,text="Actual Test Date",
-                                            anchor='w',
-                                            justify='left')
-        self.lblNextExpectedDate=ctk.CTkLabel(self,text="Next Expected Date",
-                                              anchor='w',
-                                              justify='left')
-        self.lblHoursSpent=ctk.CTkLabel(self,text="Hours Spent",
-                                        anchor='w',
-                                        justify='left')
-        self.lblTechnicianNo=ctk.CTkLabel(self,text="Technician No",
-                                          anchor='w',
-                                          justify='left')
-        self.lblProposedDateVal=ctk.CTkLabel(self,text="14-JUN-2024",
-                                             anchor='w',
-                                             justify='left')
-        self.lblActualTestDateVal=ctk.CTkLabel(self,text="15-JUN-2024",
-                                               anchor='w',
-                                               justify='left')
-        self.lblNextExpectedDateVal=ctk.CTkLabel(self,text="15-AUG-2024",
-                                                 anchor='w',
-                                                 justify='left')
-        self.lblHoursSpentVal=ctk.CTkLabel(self,text="16 hrs",
-                                           anchor='w',
-                                           justify='left')
-        self.lblTechnicianNoVal=ctk.CTkLabel(self,text="T47",
-                                             anchor='w',
-                                             justify='left')
+        self.lblProposedDate=ctk.CTkLabel(self,text="Proposed Date",anchor='w',justify='left')
+        self.lblActualTestDate=ctk.CTkLabel(self,text="Actual Test Date",anchor='w',justify='left')
+        self.lblNextExpectedDate=ctk.CTkLabel(self,text="Next Expected Date",anchor='w',justify='left')
+        self.lblHoursSpent=ctk.CTkLabel(self,text="Hours Spent",anchor='w',justify='left')
+        self.lblTechnicianNo=ctk.CTkLabel(self,text="Technician No",anchor='w',justify='left')
+
+        self.lblProposedDateVal=ctk.CTkLabel(self,text="14-JUN-2024",anchor='w',justify='left')
+        self.lblActualTestDateVal=ctk.CTkLabel(self,text="15-JUN-2024",anchor='w',justify='left')
+        self.lblNextExpectedDateVal=ctk.CTkLabel(self,text="15-AUG-2024",anchor='w',justify='left')
+        self.lblHoursSpentVal=ctk.CTkLabel(self,text="16 hrs",anchor='w',justify='left')
+        self.lblTechnicianNoVal=ctk.CTkLabel(self,text="T47",anchor='w',justify='left')
         
         
         self.lblProposedDate.grid(row=0,column=0,padx=10,sticky='w')
@@ -226,7 +272,7 @@ class ExtraDetails(ctk.CTkFrame):
 class TestsFrame(ctk.CTkScrollableFrame):
     def __init__(self, master,RegistrationNumber, **kwargs):
         super().__init__(master, **kwargs,
-                         height=700,
+                         height=650,
                          width=1150)
         self.TestRows={}
         self.ExpandedPanels={}
@@ -241,6 +287,7 @@ class TestsFrame(ctk.CTkScrollableFrame):
             row=TestRow(self,i)
             row.pack(fill='x',padx=50)
             self.TestRows[i]=row
+        
 
     def ShowMore(self,TestNo):
         if not TestNo in self.ExpandedPanels:
