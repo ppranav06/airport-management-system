@@ -20,12 +20,15 @@
 
 """Connecting to Oracle"""
 
-import cx_Oracle
+import os
+from dotenv import load_dotenv
+import oracledb
 
-con = cx_Oracle.connect('pranav/ssn@localhost:1521/AMSPROJECT')
+# load all environment variables
+load_dotenv()
+
+con = oracledb.connect(os.environ.get('CONNECTION_STRING'))
 cursor = con.cursor()
-result_cursor = cursor.var(cx_Oracle.CURSOR)
+result_cursor = cursor.var(oracledb.CURSOR)
 cursor.callproc('USP_GETALLMANUFACTURERS', [result_cursor])
 print(result_cursor.getvalue().fetchall())
-
-# pranav/ssn@lcoalhost:1521/AMSPROJECT
