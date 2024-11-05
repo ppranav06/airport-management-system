@@ -11,12 +11,12 @@ class ManufacturersData:
             result_cursor = cursor.var(oracledb.CURSOR)
             cursor.callproc('USP_GETALLMANUFACTURERS', [result_cursor])
             result=result_cursor.getvalue().fetchall()
+            return result   
         except:
             raise Exception('Data wasnt accessed properly')
         finally:
             self.connection.close()
         
-        return result
 
 
 

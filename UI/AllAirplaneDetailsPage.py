@@ -8,6 +8,7 @@ ModelData=Data.Models
 AirplaneData=Data.Airplanes
 
 airplanes=Airplanes.Airplanes('s')
+print(airplanes.GetModels(1))
 class AllAirplanesPage(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=1400)
@@ -83,12 +84,12 @@ class ManufacturersFrame(ctk.CTkScrollableFrame):
                               hover_color='lightgrey')
             btn.pack(pady=20,padx=30,fill='x')
 
-    def SelectNewManufacturer(self,manufacturer):
+    def SelectNewManufacturer(self,manufacturerID):
         target=self.master.master.master.modelsPlaceHolderFrame
         if target.modelsFrame!=None:
             target.modelsFrame.destroy()
-        self.master.master.master.SelectedManufacturer.set('SELECTED MANUFACTURER: '+manufacturer)
-        target.modelsFrame=ModelsFrame(target,manufacturer)
+        self.master.master.master.SelectedManufacturer.set('SELECTED MANUFACTURER: '+str(manufacturerID))
+        target.modelsFrame=ModelsFrame(target,manufacturerID)
         target.modelsFrame.pack()
         
         
@@ -105,35 +106,36 @@ class AirplanesPlaceHolderFrame(ctk.CTkFrame):
 
         self.airplanesFrame=None
 class ModelsFrame(ctk.CTkScrollableFrame):
-    def __init__(self, master,manufacturer, **kwargs):
+    def __init__(self, master,manufacturerID, **kwargs):
         super().__init__(master, **kwargs,height=700,width=380,fg_color='white')
         ModelImage=ctk.CTkImage(light_image=PIL.Image.open(r'Images\737.jpeg'),size=(250,200))
-        for model in ModelData.values():
-            if model["Manufacturer"].lower()==manufacturer.lower():
-                btn=ctk.CTkButton(self,
-                                  image=ModelImage,
-                                  text=model["Model"],
-                                  command=lambda m=model["Model"]:self.SelectNewModel(m),
-                                  fg_color='transparent',
-                                  compound='top',
-                                  text_color='black',
-                                  hover_color='lightgrey')
-                btn.pack()
+        print(airplanes.GetModels(manufacturerID))
+        # for modelData in airplanes.GetModels(manufacturerID):
+        #     print(modelData)
+            # btn=ctk.CTkButton(self,
+            #                     image=ModelImage,
+            #                     text=modelData[1],
+            #                     command=lambda m=modelData[1]:self.SelectNewModel(m),
+            #                     fg_color='transparent',
+            #                     compound='top',
+            #                     text_color='black',
+            #                     hover_color='lightgrey')
+    #         btn.pack()
 
-    def SelectNewModel(self,model):
-        target=self.master.master.master.master.airplanesPlaceHolderFrame
-        if target.airplanesFrame!=None:
-            target.airplanesFrame.destroy()
-        self.master.master.master.master.SelectedModel.set('SELECTED MODEL: '+model)
-        target.airplanesFrame=AirplanesFrame(target,model)
-        target.airplanesFrame.pack()
+    # def SelectNewModel(self,model):
+    #     target=self.master.master.master.master.airplanesPlaceHolderFrame
+    #     if target.airplanesFrame!=None:
+    #         target.airplanesFrame.destroy()
+    #     self.master.master.master.master.SelectedModel.set('SELECTED MODEL: '+model)
+    #     target.airplanesFrame=AirplanesFrame(target,model)
+    #     target.airplanesFrame.pack()
 
-    def destroy(self):
-        target=self.master.master.master.master.airplanesPlaceHolderFrame
-        if target.airplanesFrame!=None:
-            target.airplanesFrame.destroy()
-        self.master.master.master.master.SelectedManufacturer.set('')
-        self.pack_forget()
+    # def destroy(self):
+    #     target=self.master.master.master.master.airplanesPlaceHolderFrame
+    #     if target.airplanesFrame!=None:
+    #         target.airplanesFrame.destroy()
+    #     self.master.master.master.master.SelectedManufacturer.set('')
+    #     self.pack_forget()
  
 class AirplanesFrame(ctk.CTkScrollableFrame):
     def __init__(self, master,model, **kwargs):
