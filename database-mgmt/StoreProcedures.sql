@@ -45,7 +45,8 @@ END;
 /
 
 CREATE OR REPLACE PROCEDURE usp_GetAirplanes (
-   modelID IN MODEL.Model_Id%TYPE,result_cursor OUT SYS_REFCURSOR
+   modelID       IN MODEL.Model_Id%TYPE,
+   result_cursor OUT SYS_REFCURSOR
 ) AS
 BEGIN
    OPEN result_cursor FOR SELECT *
@@ -53,9 +54,33 @@ BEGIN
                            WHERE model_id = modelID;
 END;
 /
+CREATE OR REPLACE PROCEDURE usp_GetAirplaneInfo (
+   modelID       IN MODEL.Model_Id%TYPE,
+   result_cursor OUT SYS_REFCURSOR
+) AS
+BEGIN
+   OPEN result_cursor FOR SELECT a.Regno,
+                                 m.model_Id,
+                                 a.First_Flight,
+                                 m.Model_Name,
+                                 man.MAN_NAME,
+                                 m.Nickname,
+                                 m.Capacity,
+                                 m.Range,
+                                 m.Cruising_Speed,
+                                 m.Engine_Type
+                                                   FROM Airplane a
+                                                   JOIN Model m
+                                                 ON m.model_id = a.model_id
+                                                   JOIN MANUFACTURER man
+                                                 ON man.MAN_ID = m.MANUFACTURER_ID
+                           WHERE a.REGNO = modelID;
+END;
+/
 
 CREATE OR REPLACE PROCEDURE usp_GetModels (
-   manufacturerID IN MANUFACTURER.MAN_ID%TYPE,result_cursor OUT SYS_REFCURSOR
+   manufacturerID IN MANUFACTURER.MAN_ID%TYPE,
+   result_cursor  OUT SYS_REFCURSOR
 ) AS
 BEGIN
    OPEN result_cursor FOR SELECT *
@@ -63,6 +88,30 @@ BEGIN
                            WHERE MANUFACTURER_ID = manufacturerID;
 END;
 /
+
+CREATE OR REPLACE PROCEDURE usp_GetTestsOfPlane (
+   RegNo         IN Airplane.regNo%TYPE,
+   result_cursor OUT SYS_REFCURSOR
+) AS
+BEGIN
+   OPEN result_cursor FOR SELECT t.TEST_ID,
+                                 i.AIRPL_REGNO,
+                                 i.TECH_SSN,
+                                 i.PROPOSED_DATE,
+                                 i.ACTUAL_DATE,
+                                 i.HOURS,
+                                 i.SCORE,
+                                 t.TEST_NAME,
+                                 t.TEST_DESCRIPTION,
+                                 t.TEST_PERIODICITY,
+                                 t.TEST_MAX_SCORE
+                                                   FROM TEST_INFO i
+                                                   JOIN TEST t
+                                                 ON i.TEST_ID = t.TEST_ID
+                           WHERE Airpl_Regno = RegNo;
+END;
+/
+
 
 -- Testing the stored procedures
 

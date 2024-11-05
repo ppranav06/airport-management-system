@@ -1,1 +1,1 @@
-from . import Airplanes,Connection
+from . import Airplanes,Connection,Tests

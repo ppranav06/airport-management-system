@@ -22,5 +22,8 @@ class Connection:
         return self.cursor
     
     def close(self):
+        
         self.cursor.close()
         self.connection.close()
+        del self.cursor
+        del self.connection
