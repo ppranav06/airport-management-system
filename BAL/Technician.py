@@ -8,3 +8,6 @@ class Technician:
     def GetTechnicianData(self,Ssn):
         print(Ssn)
         return self.technicianData.GetTechnicianData(Ssn)
+    
+    def GetAllTechniciansData(self):
+        return self.technicianData.GetAllTechniciansData()

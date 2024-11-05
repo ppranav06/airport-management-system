@@ -21,6 +21,15 @@ class HomePage(ctk.CTkFrame):
                                         font=buttonFont,
                                         command=self.master.LoadAllAirplanesPage)
         
+        self.btnSingleTechnician=ctk.CTkButton(self,
+                                        text='123456789',
+                                        fg_color='#9E431F',
+                                        text_color='white',
+                                        corner_radius=1,
+                                        hover_color='grey',
+                                        font=buttonFont,
+                                        command=lambda:self.master.LoadTechnicianDetailsPage(123456789))
+        
         self.btnTechnicians=ctk.CTkButton(self,
                                         text='Technicians',
                                         fg_color='#9E431F',
@@ -28,7 +37,7 @@ class HomePage(ctk.CTkFrame):
                                         corner_radius=1,
                                         hover_color='grey',
                                         font=buttonFont,
-                                        command=lambda:self.master.LoadTechnicianDetailsPage(123456789))
+                                        command=lambda:self.master.LoadAllTechnicianDetailsPage())
 
         self.btnTests=ctk.CTkButton(self,
                                         text='Test',
@@ -40,8 +49,9 @@ class HomePage(ctk.CTkFrame):
                                         command=lambda:self.master.LoadTestsPage())
 
         self.btnAircrafts.place(x=1080,y=400)
-        self.btnTechnicians.place(x=1080,y=440)
+        self.btnTechnicians.place(x=1080,y=440) # trying to add all the technicians (can replace later)
         self.btnTests.place(x=1080,y=480)
+        self.btnSingleTechnician.place(x=1080,y=520) # can be removed
 
 class BackgroundImage(ctk.CTkLabel):
     def __init__(self, master,bgImage, **kwargs):

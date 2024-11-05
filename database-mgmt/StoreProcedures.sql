@@ -34,6 +34,16 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE PROCEDURE usp_GetAllTechnicians (
+   result_cursor OUT SYS_REFCURSOR
+) AS
+BEGIN
+   OPEN result_cursor FOR SELECT *
+                            FROM Technician;
+
+END;
+/
+
 CREATE OR REPLACE PROCEDURE usp_GetAllTests (
    result_cursor OUT SYS_REFCURSOR
 ) AS
