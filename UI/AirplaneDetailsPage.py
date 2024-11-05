@@ -45,6 +45,10 @@ class AirplaneDetailsFrame(ctk.CTkFrame):
         self.btnHome=ctk.CTkButton(self,text='Home',command=self.master.master.LoadHomePage)
         self.btnHome.pack(side=ctk.BOTTOM)
 
+        self.btnBack=ctk.CTkButton(self,text='Back',command=self.master.master.LoadAllAirplanesPage)
+        self.btnBack.pack(side=ctk.BOTTOM)
+
+
 class InfoFrame(ctk.CTkFrame):
     def __init__(self, master,RegistrationNumber, **kwargs):
         super().__init__(master, **kwargs,
