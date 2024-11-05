@@ -235,32 +235,6 @@ INSERT INTO Test_Info VALUES ( 'T010','HK-ABC',112345678,TO_DATE('2023-10-15','Y
 SELECT DISTINCT Airpl_Regno
   FROM Test_Info;
 
-
-DECLARE
-   res SYS_REFCURSOR;
-BEGIN
-   -- Call the stored procedure, passing the cursor variable
-   USP_GETALLMANUFACTURERS(res);
-   FOR rec IN (
-      SELECT *
-        FROM res
-   ) LOOP
-      DBMS_OUTPUT.PUT_LINE('Manufacturer: ' || rec.manufacturer_name); -- Adjust based on your columns
-   END LOOP;
-
-   CLOSE res;  -- Not always necessary, but good practice
-END;
-/
-   set serveroutput on;
-
-CREATE OR REPLACE PROCEDURE usp_GetAllManufacturers (
-   result_cursor OUT SYS_REFCURSOR
-) AS
-BEGIN
-   OPEN result_cursor FOR SELECT *
-                            FROM Manufacturer;
-END;
-
 SELECT *
   FROM MANUFACTURER;
 
