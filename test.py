@@ -22,7 +22,10 @@
 
 import cx_Oracle
 
-con = cx_Oracle.connect('user/password@orcl')
+con = cx_Oracle.connect('pranav/ssn@localhost:1521/AMSPROJECT')
 cursor = con.cursor()
-cursor.execute("select * from pizza")
-print(cursor.fetchall())
+result_cursor = cursor.var(cx_Oracle.CURSOR)
+cursor.callproc('USP_GETALLMANUFACTURERS', [result_cursor])
+print(result_cursor.getvalue().fetchall())
+
+# pranav/ssn@lcoalhost:1521/AMSPROJECT
