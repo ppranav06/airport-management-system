@@ -1,11 +1,13 @@
 import customtkinter as ctk
 import PIL
+from BAL import Airplanes
 
 from DATA.Data import Data
 
 ModelData=Data.Models
 AirplaneData=Data.Airplanes
 
+airplanes=Airplanes.Airplanes('s')
 class AllAirplanesPage(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=1400)
@@ -70,10 +72,10 @@ class ManufacturersFrame(ctk.CTkScrollableFrame):
         super().__init__(master, **kwargs,height=700,width=380,fg_color='white')
          
         ManufacturerImage=ctk.CTkImage(light_image=PIL.Image.open(r'Images\6131.webp'),size=(250,150))
-        for manufacturer in ['Boeing','Airbus','Cirrus','Piper','Cessna']:
+        for manufacturerID,manufacturerName in airplanes.GetAllManufacturers():
             btn=ctk.CTkButton(self,image=ManufacturerImage,
-                              text=manufacturer,
-                              command=lambda m=manufacturer:self.SelectNewManufacturer(m),
+                              text=manufacturerName,
+                              command=lambda m=manufacturerID:self.SelectNewManufacturer(m),
                               fg_color='transparent',
                               text_color='black',
                               corner_radius=3,
