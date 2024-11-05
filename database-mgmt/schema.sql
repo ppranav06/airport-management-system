@@ -232,12 +232,14 @@ INSERT INTO Test_Info VALUES ( 'T010','HK-ABC',112345678,TO_DATE('2023-10-15','Y
 ),4,84 );
 
 
-SELECT DISTINCT Airpl_Regno
-  FROM Test_Info;
+-- SELECT DISTINCT Airpl_Regno
+--   FROM Test_Info;
 
-SELECT *
-  FROM MANUFACTURER;
+-- SELECT *
+--   FROM MANUFACTURER;
 
-var c refcursor
-exec usp_GetAllManufacturers(:c)
-print c
+-- var c refcursor
+-- exec usp_GetAllManufacturers(:c)
+-- print c
+
+COMMIT;
