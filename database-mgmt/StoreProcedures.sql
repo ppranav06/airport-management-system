@@ -88,6 +88,16 @@ BEGIN
                            WHERE MANUFACTURER_ID = manufacturerID;
 END;
 /
+CREATE OR REPLACE PROCEDURE usp_GetTechnician (
+   SsnInput      IN Technician.Ssn%TYPE,
+   result_cursor OUT SYS_REFCURSOR
+) AS
+BEGIN
+   OPEN result_cursor FOR SELECT *
+                                                   FROM TECHNICIAN
+                           WHERE SSN = SsnInput;
+END;
+/
 
 CREATE OR REPLACE PROCEDURE usp_GetTestsOfPlane (
    RegNo         IN Airplane.regNo%TYPE,
