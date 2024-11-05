@@ -2,9 +2,11 @@ import customtkinter as ctk
 import PIL
 
 from DATA.Data import Data
+from BAL.Tests import Tests
 
-AirplaneData=Data.Airplanes
+# AirplaneData=Data.Airplanes
 
+tests=Tests()
 class AllTestsPage(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=1400)
@@ -78,7 +80,7 @@ class HeadingRow(ctk.CTkFrame):
         self.grid_columnconfigure(1, weight=1,uniform='a')
         self.grid_columnconfigure(2, weight=1,uniform='a')
         self.grid_columnconfigure(3, weight=1,uniform='a')
-        self.grid_columnconfigure(4, weight=1,uniform='b')
+        self.grid_columnconfigure(4, weight=1,uniform='a')
 
         headingFont=ctk.CTkFont(size=15,weight='bold')
 
@@ -96,29 +98,29 @@ class HeadingRow(ctk.CTkFrame):
     # dummylabel=ctk.CTkLabel(self,text='a').grid(column=4,row=0)
 
 class TestRow(ctk.CTkFrame):
-    def __init__(self, master,TestNo, **kwargs):
+    def __init__(self, master,testDetails, **kwargs):
         super().__init__(master, **kwargs,width=1150)
         self.grid_columnconfigure(0, weight=1,uniform='a')
         self.grid_columnconfigure(1, weight=1,uniform='a')
         self.grid_columnconfigure(2, weight=1,uniform='a')
         self.grid_columnconfigure(3, weight=1,uniform='a')
-        self.grid_columnconfigure(4, weight=1,uniform='b')
+        self.grid_columnconfigure(4, weight=1,uniform='a')
 
-        self.TestName=ctk.StringVar(value='EngineCheck')
-        self.MaxScore=ctk.StringVar(value=10)
-        self.Periodicity=ctk.StringVar(value='5 months')
-        self.Description=ctk.StringVar(value='Description')
+        self.TestName=ctk.StringVar(value=testDetails[1])
+        self.MaxScore=ctk.StringVar(value=testDetails[4])
+        self.Periodicity=ctk.StringVar(value=str(testDetails[3])+' months')
+        self.Description=ctk.StringVar(value=testDetails[2])
 
         self.newTestName=ctk.StringVar()
         self.newMaxScore=ctk.StringVar()
         self.newPeriodicity=ctk.StringVar()
         self.newDescription=ctk.StringVar()
 
-        self.lblTestNumberVal=ctk.CTkLabel(self,text=1)
+        self.lblTestNumberVal=ctk.CTkLabel(self,text=testDetails[0])
         self.lblTestNameVal=ctk.CTkLabel(self,textvariable=self.TestName)
         self.lblTestMaxScoreVal=ctk.CTkLabel(self,textvariable=self.MaxScore)
         self.lblTestPeriodicityVal=ctk.CTkLabel(self,textvariable=self.Periodicity)
-        self.btnDescriptionVal=ctk.CTkButton(self,text='Description',command=lambda:self.master.ShowMore(TestNo))
+        self.btnDescriptionVal=ctk.CTkButton(self,text='Description',command=lambda:self.master.ShowMore(testDetails))
         
         self.lblTestNumberVal.grid(column=0,row=0,pady=20)
         self.lblTestNameVal.grid(column=1,row=0)
@@ -158,12 +160,12 @@ class TestRow(ctk.CTkFrame):
         
 
 class TestRowExpansion(ctk.CTkFrame):
-    def __init__(self, master,TestNo, **kwargs):
+    def __init__(self, master,testDetails, **kwargs):
         super().__init__(master, **kwargs,
                          width=1150,
                          height=300)
         
-        self.TestNo=TestNo
+        self.TestNo=testDetails[0]
         self.grid_columnconfigure(0,weight=0)
         self.grid_columnconfigure(1,weight=2)
         self.grid_columnconfigure(2,weight=2)
@@ -173,10 +175,10 @@ class TestRowExpansion(ctk.CTkFrame):
         # self.extraDetails=ExtraDetails(self,TestNo)
         # self.extraDetails.grid(column=1,row=0,pady=10,sticky='e',padx=20)
 
-        self.descriptionBox=DescriptionBox(self,TestNo)
+        self.descriptionBox=DescriptionBox(self,testDetails)
         self.descriptionBox.grid(column=2,row=0,sticky='nsw',pady=10)
 
-        self.btnLess=ctk.CTkButton(self,text='less',command=lambda:self.master.ShowLess(TestNo))
+        self.btnLess=ctk.CTkButton(self,text='less',command=lambda:self.master.ShowLess(self.TestNo))
         self.btnLess.grid(column=3,row=0,sticky='w')
 
         self.btnEdit=ctk.CTkButton(self,text='Edit',command=self.Edit)
@@ -197,7 +199,7 @@ class TestRowExpansion(ctk.CTkFrame):
         self.descriptionBox.Edit()
 
 class DescriptionBox(ctk.CTkFrame):
-    def __init__(self, master,TestNo, **kwargs):
+    def __init__(self, master,testDetails, **kwargs):
         super().__init__(master, **kwargs,
                          height=300,
                          width=400,
@@ -207,7 +209,7 @@ class DescriptionBox(ctk.CTkFrame):
         self.lblDescription=ctk.CTkLabel(self,text='Description',anchor='w')
         self.lblDescription.pack(fill='x',padx=5)
 
-        self.Description='This is a Test done to make sure that the engine is\n running fine and all okkkkkkkkkk okkkkk and okkkkkkkkk !!!!'
+        self.Description=testDetails[2]
 
         # self.lblDescriptionVal=ctk.CTkLabel(self,textvariable=self.Description,anchor='w',justify='left')
         # self.lblDescriptionVal.pack(fill='both',padx=5)
@@ -271,9 +273,9 @@ class ExtraDetails(ctk.CTkFrame):
     
 class TestsFrame(ctk.CTkScrollableFrame):
     def __init__(self, master,RegistrationNumber, **kwargs):
-        super().__init__(master, **kwargs,
-                         height=650,
-                         width=1150)
+        super().__init__(master, **kwargs,height=650,width=1150)
+        alltests=tests.GetAllTestsData()
+
         self.TestRows={}
         self.ExpandedPanels={}
 
@@ -283,15 +285,16 @@ class TestsFrame(ctk.CTkScrollableFrame):
 
         columnHeadingRow=HeadingRow(self).pack(fill='x',pady=3,padx=50)
         
-        for i in range(10):
-            row=TestRow(self,i)
+        for testData in alltests:
+            row=TestRow(self,testData)
             row.pack(fill='x',padx=50)
-            self.TestRows[i]=row
+            self.TestRows[testData[0]]=row
         
 
-    def ShowMore(self,TestNo):
+    def ShowMore(self,testData):
+        TestNo=testData[0]
         if not TestNo in self.ExpandedPanels:
-            self.ExpandedPanels[TestNo]=TestRowExpansion(self,TestNo)
+            self.ExpandedPanels[TestNo]=TestRowExpansion(self,testData)
             self.ExpandedPanels[TestNo].pack(after=self.TestRows[TestNo],fill='x',padx=50)
     
     def ShowLess(self,TestNo):

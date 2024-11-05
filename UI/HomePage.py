@@ -28,7 +28,7 @@ class HomePage(ctk.CTkFrame):
                                         corner_radius=1,
                                         hover_color='grey',
                                         font=buttonFont,
-                                        command=lambda:self.master.LoadTechnicianDetailsPage(1))
+                                        command=lambda:self.master.LoadTechnicianDetailsPage(123456789))
 
         self.btnTests=ctk.CTkButton(self,
                                         text='Test',

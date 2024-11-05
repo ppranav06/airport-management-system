@@ -58,7 +58,7 @@ class InfoFrame(ctk.CTkFrame):
 
         self.lblModel=ctk.CTkLabel(master=self,text='Model')
         self.lblModel.grid(row=1,column=0,padx=10,sticky='w')
-        self.lblModelVal=ctk.CTkLabel(master=self,text=planeDetails[0])
+        self.lblModelVal=ctk.CTkLabel(master=self,text=planeDetails[3])
         self.lblModelVal.grid(row=1,column=1,padx=10,sticky='w')
 
         self.lblCapacity=ctk.CTkLabel(master=self,text='Capacity')

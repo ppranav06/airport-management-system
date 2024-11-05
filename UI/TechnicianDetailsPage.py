@@ -1,8 +1,10 @@
 import customtkinter as ctk
 import PIL
+from BAL.Technician import Technician
 
 from DATA.Data import Data
 
+technician=Technician()
 class TechnicianDetailsPage(ctk.CTkFrame):
     def __init__(self, master,TechnicianNumber, **kwargs):
         super().__init__(master, **kwargs,
@@ -56,10 +58,7 @@ class ExpertiseFrame(ctk.CTkFrame):
 
 class OtherDetailsFrame(ctk.CTkFrame):
     def __init__(self, master,TechnicianNumber, **kwargs):
-        super().__init__(master,
-                         height=700,
-                         width=1100,
-                         **kwargs)
+        super().__init__(master,height=700,width=1100,**kwargs)
         self.grid_rowconfigure(0,weight=1)
         self.grid_rowconfigure(1,weight=4)
 
@@ -72,31 +71,32 @@ class OtherDetailsFrame(ctk.CTkFrame):
 
 class PersonalDetailsFrame(ctk.CTkFrame):
     def __init__(self, master,TechnicianNumber, **kwargs):
-        super().__init__(master, **kwargs,
-                         width=1000)
+        technicianDetails=technician.GetTechnicianData(TechnicianNumber)[0]
+        print(technicianDetails)
+        super().__init__(master, **kwargs,width=1000)
         
-        self.lblNameVal=ctk.CTkLabel(self,text='Bob Sundareswaran',
+        self.lblNameVal=ctk.CTkLabel(self,text=technicianDetails[1],
                                      width=1100,
                                      anchor='nw',
                                      font=ctk.CTkFont(size=50,weight='bold',slant='roman'))
         self.lblNameVal.pack(fill='x',padx=20,pady=20)
 
-        self.editableGrid=EditableDetailsGrid(self,TechnicianNumber)
+        self.editableGrid=EditableDetailsGrid(self,technicianDetails)
         self.editableGrid.pack(fill='x',padx=20)
 
 
 class EditableDetailsGrid(ctk.CTkFrame):
-    def __init__(self, master,TechnicianNumber, **kwargs):
+    def __init__(self, master,technicianDetails, **kwargs):
         super().__init__(master, **kwargs,
                          width=1100)
         
         self.grid_columnconfigure(0,weight=1)
         self.grid_columnconfigure(1,weight=6)
 
-        self.Ssn=ctk.StringVar(value='324087234342332')
-        self.Address=ctk.StringVar(value='Area 51, Arizona, United States of America, 1033081')
-        self.ContactNo=ctk.StringVar(value='234087238')
-        self.Salary=ctk.StringVar(value='30000')
+        self.Ssn=ctk.StringVar(value=technicianDetails[0])
+        self.Address=ctk.StringVar(value=technicianDetails[4])
+        self.ContactNo=ctk.StringVar(value=technicianDetails[3])
+        self.Salary=ctk.StringVar(value=technicianDetails[2])
 
         self.newSsn=ctk.StringVar()
         self.newAddress=ctk.StringVar()
