@@ -108,6 +108,25 @@ BEGIN
                            WHERE SSN = SsnInput;
 END;
 /
+CREATE OR REPLACE PROCEDURE usp_InsertTestInfo (
+   TestId       IN Test_Info.Test_Id%TYPE,
+   RegNo        IN Test_Info.Airpl_Regno%TYPE,
+   Ssn          IN Test_Info.Tech_Ssn%TYPE,
+   ProposedDate IN Test_Info.Proposed_Date%TYPE,
+   ActualDate   IN Test_Info.Actual_Date%TYPE,
+   Hours        IN Test_Info.Hours%TYPE,
+   score        IN Test_Info.Score%TYPE
+) AS
+BEGIN
+   INSERT INTO Test_Info VALUES ( TestId,
+                                  RegNo,
+                                  Ssn,
+                                  ProposedDate,
+                                  ActualDate,
+                                  Hours,
+                                  score );
+END;
+/
 
 CREATE OR REPLACE PROCEDURE usp_GetTestsOfPlane (
    RegNo         IN Airplane.regNo%TYPE,
@@ -154,5 +173,9 @@ EXCEPTION
 END;
 /
 
+SELECT *
+  FROM TEST_INFO
+ WHERE AIRPL_REGNO = 'F-WWDD';
 -- SELECT *
 --   FROM MANUFACTURER;
+COMMIT;

@@ -16,3 +16,15 @@ class TestInfoData:
             raise e
         finally:
             self.connection.close()
+
+    def InsertTestInfo(self,TestId,RegNo,Ssn,ProposedDate,ActualDate,Hours,score):
+        try:
+            cursor=self.connection.cursor()
+            cursor.callproc('usp_InsertTestInfo', [str(TestId),str(RegNo),str(Ssn),ProposedDate,ActualDate,str(Hours),str(score)])
+            
+        except Exception as e:
+            raise e
+        finally:
+            self.connection.close()
+
+    

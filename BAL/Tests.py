@@ -1,6 +1,8 @@
 from DAL.TestInfoData import TestInfoData
 from DAL.TestData import TestData
 from .Connection import Connection
+from dateutil.relativedelta import relativedelta
+import datetime
 
 
 class Tests:
@@ -13,3 +15,28 @@ class Tests:
     
     def GetAllTestsData(self):
         return self.TestsData.GetAllTestsData()
+    
+    def CreateNewTests(self,RegistrationNo):
+        newTests=[]
+        LatestTests={}
+        testDetails=self.GetTestInfo(RegistrationNo)
+        for i in testDetails:
+            if i[0] not in LatestTests:
+                LatestTests[i[0]]=i
+            else:
+                if LatestTests[i[0]][4]<i[4]:
+                    LatestTests[i[0]]=i
+        for test in LatestTests.values():
+            if (test[4]+relativedelta(months=test[9])).date()<datetime.datetime.now().date():
+                newTest=list(test)
+                newTest[2]=None
+                newTest[3]=(test[4]+relativedelta(months=test[9])).date()
+                newTest[4]=None
+                newTest[5]=None
+                newTest[6]=None
+                newTests.append(newTest)
+
+        return newTests
+
+    def InsertTestInfo(self,TestId,RegNo,Ssn,ProposedDate,ActualDate,Hours,score):
+        self.TestInfoData.InsertTestInfo(TestId,RegNo,Ssn,ProposedDate,ActualDate,Hours,score)
