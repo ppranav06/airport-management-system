@@ -132,6 +132,41 @@ BEGIN
 END;
 /
 
+-- Procedures to insert data (tests)
+
+CREATE OR REPLACE PROCEDURE USP_CreateTest(
+   v_test_id IN TEST.test_id%TYPE,
+   v_test_name IN TEST.test_name%TYPE, 
+   v_test_max_score IN TEST.test_max_score%TYPE,
+   v_test_periodicity IN TEST.test_periodicity%TYPE,
+   v_test_description IN TEST.test_description%TYPE
+) IS
+BEGIN
+   INSERT INTO TEST (test_id, test_name, test_max_score, test_periodicity,test_description)
+      VALUES (v_test_id, v_test_name, v_test_max_score, v_test_periodicity, v_test_description);
+-- EXCEPTION
+--    WHEN OTHERS THEN
+--    DBMS_OUTPUT.PUT_LINE  (SQLERRM);
+END;
+/
+
+CREATE OR REPLACE PROCEDURE USP_DeleteTest(
+   v_test_id IN TEST.test_id%TYPE
+) AS 
+BEGIN
+   DELETE FROM test WHERE TEST_ID=v_test_id;
+END;
+/
+
+-- CREATE OR REPLACE PROCEDURE USP_EditTest(
+--    v_test_id IN TEST.test_id%TYPE
+-- ) AS 
+-- BEGIN
+--    DELETE FROM test WHERE TEST_ID=v_test_id;
+-- END;
+-- /
+
+
 
 -- Testing the stored procedures
 
@@ -153,6 +188,18 @@ EXCEPTION
       DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
 END;
 /
+
+DECLARE 
+   v_test_id TEST.test_id%TYPE := 'T011';
+   v_test_name TEST.test_name%TYPE := 'OXYGEN MASK TEST';
+   v_test_description TEST.test_description%TYPE := 'CHECKS IF OXYGEN MASKS ARE PROPERLY INSTALLED';
+   v_test_periodicity TEST.test_periodicity%TYPE := 12;
+   v_test_max_score TEST.test_max_score%TYPE := 100;
+BEGIN
+   USP_CreateNewTest(v_test_id,v_test_name,v_test_description,v_test_periodicity,v_test_max_score);
+END;
+/
+   
 
 -- SELECT *
 --   FROM MANUFACTURER;

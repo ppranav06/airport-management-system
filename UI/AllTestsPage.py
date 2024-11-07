@@ -45,21 +45,6 @@ class InsertRow(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,width=1150,height=50)
 
-        self.btnInsert=ctk.CTkButton(self,text='Create')
-        self.btnCancel=ctk.CTkButton(self,text='Cancel')
-
-
-        
-        self.grid_columnconfigure(0, weight=1,uniform='a')
-        self.grid_columnconfigure(1, weight=1,uniform='a')
-        self.grid_columnconfigure(2, weight=1,uniform='a')
-        self.grid_columnconfigure(3, weight=1,uniform='a')
-        self.grid_columnconfigure(4, weight=1,uniform='a')
-        self.grid_columnconfigure(5, weight=1,uniform='a')
-
-        self.btnInsert.grid(column=4,row=0)
-        self.btnCancel.grid(column=5,row=0)
-
         self.txtTestId=ctk.CTkEntry(self,placeholder_text="Test Id")
         self.txtTestName=ctk.CTkEntry(self,placeholder_text="Test Name")
         self.txtTestMaxScore=ctk.CTkEntry(self,placeholder_text="Max Score")
@@ -72,6 +57,40 @@ class InsertRow(ctk.CTkFrame):
         self.txtTestMaxScore.grid(row=0,column=2)
         self.txtTestPeriodicity.grid(row=0,column=3)
         self.txtDescription.grid(row=1,column=0)
+
+
+        # Inner buttons to feed the data into database
+        self.btnInsert=ctk.CTkButton(self,text='Create',
+                                     command=self.on_click_create
+                                     )
+        self.btnCancel=ctk.CTkButton(self,text='Cancel')
+        
+        self.grid_columnconfigure(0, weight=1,uniform='a')
+        self.grid_columnconfigure(1, weight=1,uniform='a')
+        self.grid_columnconfigure(2, weight=1,uniform='a')
+        self.grid_columnconfigure(3, weight=1,uniform='a')
+        self.grid_columnconfigure(4, weight=1,uniform='a')
+        self.grid_columnconfigure(5, weight=1,uniform='a')
+
+        self.btnInsert.grid(column=4,row=0)
+        self.btnCancel.grid(column=5,row=0)
+
+
+    def on_click_create(self):
+        test_id = self.txtTestId.get()
+        test_name = self.txtTestName.get()
+        test_max_score = self.txtTestMaxScore.get()
+        test_periodicity = self.txtTestPeriodicity.get()
+        # test_description = self.txtTestDescription.get()
+        # print((test_id, test_name, test_max_score, test_periodicity, test_description))
+        tests.CreateTest(
+            test_id, 
+            test_name, 
+            test_max_score, 
+            test_periodicity, 
+            #test_description
+        )
+
 
 class HeadingRow(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
