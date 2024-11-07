@@ -1,28 +1,34 @@
 import customtkinter as ctk
-import PIL
+import PIL,datetime
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from BAL.Airplanes import Airplanes
 from BAL.Tests import Tests
 
 
-from DATA.Data import Data
+# from DATA.Data import Data
 
 # AirplaneData=Data.Airplanes
 airplanes=Airplanes()
 tests=Tests()
+home=None
 
 class AirplaneDetailsPage(ctk.CTkFrame):
     def __init__(self, master,RegistrationNumber, **kwargs):
         super().__init__(master, **kwargs,height=700,width=1400)
-        
+        global home
+        home=self.master
+
         self.AirplaneDetails=AirplaneDetailsFrame(self,RegistrationNumber)
         self.AirplaneDetails.pack(side=ctk.LEFT)
         self.AirplaneDetails.pack_propagate(0)
 
 
         self.TestDetails=TestsFrame(self,RegistrationNumber)
-        self.TestDetails.pack(side=ctk.RIGHT)
+        self.TestDetails.pack()
+
+        self.PendingTestDetails=PendingTestsFrame(self,RegistrationNumber)
+        self.PendingTestDetails.pack()
 
 class AirplaneDetailsFrame(ctk.CTkFrame):
     def __init__(self, master,RegistrationNumber, **kwargs):
@@ -92,7 +98,7 @@ class InfoFrame(ctk.CTkFrame):
 
 class TestsFrame(ctk.CTkScrollableFrame):
     def __init__(self, master,RegistrationNumber, **kwargs):
-        super().__init__(master, **kwargs,height=700,width=1150)
+        super().__init__(master, **kwargs,height=350,width=1150)
 
         testDetails=tests.GetTestInfo(RegistrationNumber)
 
@@ -108,8 +114,7 @@ class TestsFrame(ctk.CTkScrollableFrame):
             row.pack(fill='x',padx=50)
             self.TestRows[test[0]]=row
 
-        pendingRow=PendingTestRow(self,test[0])
-        pendingRow.pack(fill='x',padx=50)
+        
     def ShowMore(self,testDetails):
         TestID=testDetails[0]
         if not TestID in self.ExpandedPanels:
@@ -119,17 +124,51 @@ class TestsFrame(ctk.CTkScrollableFrame):
     def ShowLess(self,TestID):
         self.ExpandedPanels[TestID].pack_forget()
         del self.ExpandedPanels[TestID]
+class PendingTestsFrame(ctk.CTkScrollableFrame):
+    def __init__(self, master,RegistrationNumber, **kwargs):
+        super().__init__(master, **kwargs,height=350,width=1150)
 
+        testDetails=tests.GetTestInfo(RegistrationNumber)
 
+        self.PendingTestRows={}
+        self.ExpandedPendingTestPanels={}
+
+        self.lblHeading=ctk.CTkLabel(self,text='SCHEDULED TESTS',
+                                     font=ctk.CTkFont(size=30,weight='bold'))
+        self.lblHeading.pack(pady=20)
+        pendingTests=tests.CreateNewTests(RegistrationNumber)
+        if pendingTests != None:
+            for pendingTest in pendingTests:
+                pendingRow=PendingTestRow(self,pendingTest)
+                pendingRow.pack(fill='x',padx=50)
+
+    def ShowMore(self,testDetails):
+        TestID=testDetails[0]
+        if not TestID in self.ExpandedPendingTestPanels:
+            self.ExpandedPendingTestPanels[TestID]=TestRowExpansion(self,testDetails)
+            self.ExpandedPendingTestPanels[TestID].pack(after=self.PendingTestRows[TestID],fill='x',padx=50)
+    
+    def ShowLess(self,TestID):
+        self.ExpandedPendingTestPanels[TestID].pack_forget()
+        del self.ExpandedPendingTestPanels[TestID]
+
+class TestVariablesInsertionFrame(ctk.CTkFrame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs,width=1150)
+        self.txtTestScore=ctk.CTkEntry(self,placeholder_text='Score')
+        self.txtTechnicianNo=ctk.CTkEntry(self,placeholder_text='Technician Ssn')
+        self.txtHours=ctk.CTkEntry(self,placeholder_text='Hours')
+        self.txtTestScore.pack()
+        self.txtTechnicianNo.pack()
+        self.txtHours.pack()
 class TestRow(ctk.CTkFrame):
     def __init__(self, master,TestDetails, **kwargs):
-        super().__init__(master, **kwargs,
-                         width=1150)
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=1)
-        self.grid_columnconfigure(2, weight=1)
-        self.grid_columnconfigure(3, weight=1)
-        self.grid_columnconfigure(4, weight=1)
+        super().__init__(master, **kwargs,width=1150)
+        self.grid_columnconfigure(0, weight=1,uniform='a')
+        self.grid_columnconfigure(1, weight=1,uniform='a')
+        self.grid_columnconfigure(2, weight=1,uniform='a')
+        self.grid_columnconfigure(3, weight=1,uniform='a')
+        self.grid_columnconfigure(4, weight=1,uniform='a')
         self.lblTestNumberVal=ctk.CTkLabel(self,text=TestDetails[0])
         self.lblTestNameVal=ctk.CTkLabel(self,text=TestDetails[7])
         self.lblTestScoreVal=ctk.CTkLabel(self,text=TestDetails[6])
@@ -143,27 +182,38 @@ class TestRow(ctk.CTkFrame):
         self.btnMore.grid(column=4,row=0)
 
 class PendingTestRow(ctk.CTkFrame):
-    def __init__(self, master,TestID, **kwargs):
+    def __init__(self, master,TestDetails, **kwargs):
         super().__init__(master, **kwargs,
                          width=1150)
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=1)
-        self.grid_columnconfigure(2, weight=1)
-        self.grid_columnconfigure(3, weight=1)
-        self.grid_columnconfigure(4, weight=1)
-        self.lblTestNumberVal=ctk.CTkLabel(self,text=1)
-        self.lblTestNameVal=ctk.CTkLabel(self,text='Engine Check')
-        self.lblTestScoreVal=ctk.CTkEntry(self)
-        self.lblTestDate=ctk.CTkLabel(self,text='09-OCT-2024')
-        self.btnMore=ctk.CTkButton(self,text='More')
-        self.btnSubmit=ctk.CTkButton(self,text='Submit')
+        self.grid_columnconfigure(0, weight=1,uniform='a')
+        self.grid_columnconfigure(1, weight=1,uniform='a')
+        self.grid_columnconfigure(2, weight=1,uniform='a')
+        self.grid_columnconfigure(3, weight=1,uniform='a')
+        self.grid_columnconfigure(4, weight=1,uniform='a')
+        self.lblTestNumberVal=ctk.CTkLabel(self,text=TestDetails[0])
+        self.lblTestNameVal=ctk.CTkLabel(self,text=TestDetails[7])
+        self.testVariablesInsertionFrame=TestVariablesInsertionFrame(self)
+        self.lblProposedTestDate=ctk.CTkLabel(self,text=TestDetails[3])
+        self.btnSubmit=ctk.CTkButton(self,text='Submit',command=lambda:self.Insert(TestDetails))
         
         self.lblTestNumberVal.grid(column=0,row=0,pady=20)
         self.lblTestNameVal.grid(column=1,row=0)
-        self.lblTestScoreVal.grid(column=2,row=0)
-        self.lblTestDate.grid(column=3,row=0)
-        self.btnMore.grid(column=4,row=0)
+        self.testVariablesInsertionFrame.grid(column=2,row=0)
+        self.lblProposedTestDate.grid(column=3,row=0)
         self.btnSubmit.grid(column=5,row=0)
+
+    def Insert(self,TestDetails):
+        try:
+            tests.InsertTestInfo(TestDetails[0],
+                                 TestDetails[1],
+                                 self.testVariablesInsertionFrame.txtTechnicianNo.get(),
+                                 TestDetails[3],
+                                 datetime.datetime.now().date(),
+                                 self.testVariablesInsertionFrame.txtHours.get(),
+                                 self.testVariablesInsertionFrame.txtTestScore.get())
+            home.LoadAirplaneDetailsPage(TestDetails[1])
+        except Exception as e:
+            raise e
 
 class TestRowExpansion(ctk.CTkFrame):
     def __init__(self, master,TestDetails, **kwargs):
@@ -201,6 +251,43 @@ class DescriptionBox(ctk.CTkFrame):
         
 
     
+class ExtraDetails(ctk.CTkFrame):
+    def __init__(self, master,TestDetails, **kwargs):
+        super().__init__(master, **kwargs,
+                         width=200,
+                         height=200,
+                         corner_radius=5)
+        
+        self.lblProposedDate=ctk.CTkLabel(self,text="Proposed Date",
+                                          anchor='w',
+                                          justify='left')
+        self.lblActualTestDate=ctk.CTkLabel(self,text="Actual Test Date",
+                                            anchor='w',
+                                            justify='left')
+        self.lblNextExpectedDate=ctk.CTkLabel(self,text="Next Expected Date",
+                                              anchor='w',
+                                              justify='left')
+        self.lblHoursSpent=ctk.CTkLabel(self,text="Hours Spent",
+                                        anchor='w',
+                                        justify='left')
+        self.lblTechnicianNo=ctk.CTkLabel(self,text="Technician Ssn",
+                                          anchor='w',
+                                          justify='left')
+        self.lblProposedDateVal=ctk.CTkLabel(self,text=TestDetails[3],
+                                             anchor='w',
+                                             justify='left')
+        self.lblActualTestDateVal=ctk.CTkLabel(self,text=TestDetails[4],
+                                               anchor='w',
+                                               justify='left')
+        self.lblNextExpectedDateVal=ctk.CTkLabel(self,text=TestDetails[4]+relativedelta(months=TestDetails[9]),
+                                                 anchor='w',
+                                                 justify='left')
+        self.lblHoursSpentVal=ctk.CTkLabel(self,text=str(TestDetails[5])+" hours",
+                                           anchor='w',
+                                           justify='left')
+        self.lblTechnicianNoVal=ctk.CTkLabel(self,text=TestDetails[2],
+                                             anchor='w',
+                                             justify='left')
 class ExtraDetails(ctk.CTkFrame):
     def __init__(self, master,TestDetails, **kwargs):
         super().__init__(master, **kwargs,

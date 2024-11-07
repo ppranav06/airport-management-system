@@ -23,6 +23,7 @@ class Connection:
     
     def close(self):
         
+        self.connection.commit()
         self.cursor.close()
         self.connection.close()
         del self.cursor

@@ -498,6 +498,27 @@ INSERT INTO Test_Info VALUES ( 'T001',
                                5,
                                90 );
 INSERT INTO Test_Info VALUES ( 'T002',
+                               'F-WWDD',
+                               123456789,
+                               TO_DATE('2024-01-10','YYYY-MM-DD'),
+                               TO_DATE('2024-01-13','YYYY-MM-DD'),
+                               6,
+                               100 );
+INSERT INTO Test_Info VALUES ( 'T003',
+                               'F-WWDD',
+                               123456789,
+                               TO_DATE('2024-01-10','YYYY-MM-DD'),
+                               TO_DATE('2024-01-15','YYYY-MM-DD'),
+                               7,
+                               70 );
+INSERT INTO Test_Info VALUES ( 'T004',
+                               'F-WWDD',
+                               123456789,
+                               TO_DATE('2024-01-10','YYYY-MM-DD'),
+                               TO_DATE('2024-01-15','YYYY-MM-DD'),
+                               9,
+                               75 );
+INSERT INTO Test_Info VALUES ( 'T002',
                                'A6-EDA',
                                234567890,
                                TO_DATE('2023-02-20','YYYY-MM-DD'),
@@ -562,6 +583,27 @@ INSERT INTO Test_Info VALUES ( 'T010',
                                87 );
 
 INSERT INTO Test_Info VALUES ( 'T001',
+                               'F-GHJK',
+                               123456789,
+                               TO_DATE('2023-01-15','YYYY-MM-DD'),
+                               TO_DATE('2023-01-20','YYYY-MM-DD'),
+                               5,
+                               92 );
+INSERT INTO Test_Info VALUES ( 'T006',
+                               'F-GHJK',
+                               123456789,
+                               TO_DATE('2023-01-15','YYYY-MM-DD'),
+                               TO_DATE('2023-01-20','YYYY-MM-DD'),
+                               5,
+                               92 );
+INSERT INTO Test_Info VALUES ( 'T007',
+                               'F-GHJK',
+                               123456789,
+                               TO_DATE('2023-01-15','YYYY-MM-DD'),
+                               TO_DATE('2023-01-20','YYYY-MM-DD'),
+                               5,
+                               92 );
+INSERT INTO Test_Info VALUES ( 'T009',
                                'F-GHJK',
                                123456789,
                                TO_DATE('2023-01-15','YYYY-MM-DD'),
@@ -642,5 +684,4 @@ INSERT INTO Test_Info VALUES ( 'T010',
 -- var c refcursor
 -- exec usp_GetAllManufacturers(:c)
 -- print c
-
 COMMIT;
