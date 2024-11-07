@@ -46,8 +46,6 @@ class InsertRow(ctk.CTkFrame):
         self.btnInsert=ctk.CTkButton(self,text='Create')
         self.btnCancel=ctk.CTkButton(self,text='Cancel')
 
-
-        
         self.grid_columnconfigure(0, weight=1,uniform='a')
         self.grid_columnconfigure(1, weight=1,uniform='a')
         self.grid_columnconfigure(2, weight=1,uniform='a')
@@ -55,8 +53,8 @@ class InsertRow(ctk.CTkFrame):
         self.grid_columnconfigure(4, weight=1,uniform='a')
         self.grid_columnconfigure(5, weight=1,uniform='a')
 
-        self.btnInsert.grid(column=4,row=0)
-        self.btnCancel.grid(column=5,row=0)
+        self.btnInsert.grid(column=5,row=0)
+        self.btnCancel.grid(column=6,row=0)
 
         self.txtTechnicianSSN=ctk.CTkEntry(self,placeholder_text="SSN")
         self.txtTechnicianName=ctk.CTkEntry(self,placeholder_text="Technician Name")
@@ -72,6 +70,7 @@ class InsertRow(ctk.CTkFrame):
         self.txtTechnicianPhno.grid(row=0,column=3)
         self.txtTechnicianAddress.grid(row=0,column=4)
         self.txtTechnicianDetails.grid(row=1,column=0)
+        
 
 class HeadingRow(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
@@ -81,6 +80,7 @@ class HeadingRow(ctk.CTkFrame):
         self.grid_columnconfigure(2, weight=1,uniform='a')
         self.grid_columnconfigure(3, weight=1,uniform='a')
         self.grid_columnconfigure(4, weight=1,uniform='a')
+        self.grid_columnconfigure(5, weight=1,uniform='a')
 
         headingFont=ctk.CTkFont(size=13,weight='bold')
 
@@ -96,7 +96,7 @@ class HeadingRow(ctk.CTkFrame):
         self.lblTechnicianSalary.grid(column=2,row=0)
         self.lblTechnicianPhno.grid(column=3,row=0)
         self.lblTechnicianAddress.grid(column=4,row=0)
-        self.btnTechnicianDetailsVal=ctk.CTkButton(self,text='Details').grid(column=4,row=0)
+        self.btnTechnicianDetailsVal=ctk.CTkButton(self,text='Details').grid(column=5,row=0)
     # dummylabel=ctk.CTkLabel(self,text='a').grid(column=4,row=0)
 
 class TechnicianRow(ctk.CTkFrame):
@@ -107,6 +107,7 @@ class TechnicianRow(ctk.CTkFrame):
         self.grid_columnconfigure(2, weight=1,uniform='a')
         self.grid_columnconfigure(3, weight=1,uniform='a')
         self.grid_columnconfigure(4, weight=1,uniform='a')
+        self.grid_columnconfigure(5, weight=1,uniform='a')
 
         self.TechnicianName=ctk.StringVar(value=technicianDetails[1])
         self.TechnicianSalary=ctk.StringVar(value=technicianDetails[2])

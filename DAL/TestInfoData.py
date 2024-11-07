@@ -17,6 +17,18 @@ class TestInfoData:
         finally:
             self.connection.close()
 
+    def GetTestInfoPerTechnician(self,TechnicianSsn):
+        try:
+            cursor=self.connection.cursor()
+            result_cursor = cursor.var(oracledb.CURSOR)
+            cursor.callproc('usp_GetTestsOfTechnician', [str(TechnicianSsn),result_cursor])
+            result=result_cursor.getvalue().fetchall()
+            return result
+        except Exception as e:
+            raise e
+        finally:
+            self.connection.close()
+
     def InsertTestInfo(self,TestId,RegNo,Ssn,ProposedDate,ActualDate,Hours,score):
         try:
             cursor=self.connection.cursor()

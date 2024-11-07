@@ -44,13 +44,20 @@ CREATE TABLE Technician (
 );
 
 CREATE TABLE Technician_Expertise (
-   Tech_Ssn       NUMBER(9),
-   Airplane_Model VARCHAR2(20),
+   Tech_Ssn            NUMBER(9),
+   Airplane_Model      VARCHAR2(20),
+   Years_Of_Experience NUMBER(4),
    CONSTRAINT Expertise_References_Model FOREIGN KEY ( Airplane_Model )
       REFERENCES Model ( Model_Id ),
    CONSTRAINT Expertise_References_Technician FOREIGN KEY ( Tech_Ssn )
       REFERENCES Technician ( Ssn )
 );
+
+-- ALTER TABLE Technician_Expertise ADD Years_Of_Experience NUMBER(4);
+-- UPDATE TECHNICIAN_EXPERTISE
+--    SET
+--    YEARS_OF_EXPERIENCE = 5;
+
 
 CREATE TABLE Test (
    Test_Id          VARCHAR(4) PRIMARY KEY,
@@ -61,6 +68,7 @@ CREATE TABLE Test (
 );
 
 CREATE TABLE Test_Info (
+   TestInfo_ID   VARCHAR(10),
    Test_Id       VARCHAR(4),
    Airpl_Regno   VARCHAR(10),
    Tech_Ssn      NUMBER(9),
@@ -77,6 +85,7 @@ CREATE TABLE Test_Info (
 );
 
 CREATE SEQUENCE Model_Id_Seq START WITH 1 INCREMENT BY 1 NOCACHE;
+CREATE SEQUENCE TestInfo_Id_Seq START WITH 1 INCREMENT BY 1 NOCACHE;
 
 CREATE OR REPLACE TRIGGER Model_Id_Generator BEFORE
    INSERT ON Model
@@ -86,6 +95,18 @@ BEGIN
       :New.Model_Id := Concat(
          'M0',
          Model_Id_Seq.Nextval
+      );
+   END IF;
+END;
+/
+CREATE OR REPLACE TRIGGER TestInfo_Id_Generator BEFORE
+   INSERT ON Test_Info
+   FOR EACH ROW
+BEGIN
+   IF :New.TestInfo_ID IS NULL THEN
+      :New.TestInfo_ID := Concat(
+         'Ti0',
+         TestInfo_Id_Seq.Nextval
       );
    END IF;
 END;
@@ -490,189 +511,397 @@ INSERT INTO Test VALUES ( 'T010',
                           12,
                           100 );
 
-INSERT INTO Test_Info VALUES ( 'T001',
-                               'F-WWDD',
-                               123456789,
-                               TO_DATE('2023-01-10','YYYY-MM-DD'),
-                               TO_DATE('2023-01-15','YYYY-MM-DD'),
-                               5,
-                               90 );
-INSERT INTO Test_Info VALUES ( 'T002',
-                               'F-WWDD',
-                               123456789,
-                               TO_DATE('2024-01-10','YYYY-MM-DD'),
-                               TO_DATE('2024-01-13','YYYY-MM-DD'),
-                               6,
-                               100 );
-INSERT INTO Test_Info VALUES ( 'T003',
-                               'F-WWDD',
-                               123456789,
-                               TO_DATE('2024-01-10','YYYY-MM-DD'),
-                               TO_DATE('2024-01-15','YYYY-MM-DD'),
-                               7,
-                               70 );
-INSERT INTO Test_Info VALUES ( 'T004',
-                               'F-WWDD',
-                               123456789,
-                               TO_DATE('2024-01-10','YYYY-MM-DD'),
-                               TO_DATE('2024-01-15','YYYY-MM-DD'),
-                               9,
-                               75 );
-INSERT INTO Test_Info VALUES ( 'T002',
-                               'A6-EDA',
-                               234567890,
-                               TO_DATE('2023-02-20','YYYY-MM-DD'),
-                               TO_DATE('2023-02-25','YYYY-MM-DD'),
-                               4,
-                               95 );
-INSERT INTO Test_Info VALUES ( 'T003',
-                               'N123AB',
-                               345678901,
-                               TO_DATE('2023-03-15','YYYY-MM-DD'),
-                               TO_DATE('2023-03-20','YYYY-MM-DD'),
-                               3,
-                               80 );
-INSERT INTO Test_Info VALUES ( 'T004',
-                               'G-AVIT',
-                               456789012,
-                               TO_DATE('2023-04-10','YYYY-MM-DD'),
-                               TO_DATE('2023-04-15','YYYY-MM-DD'),
-                               2,
-                               85 );
-INSERT INTO Test_Info VALUES ( 'T005',
-                               'C-FXYZ',
-                               567890123,
-                               TO_DATE('2023-05-05','YYYY-MM-DD'),
-                               TO_DATE('2023-05-10','YYYY-MM-DD'),
-                               6,
-                               70 );
-INSERT INTO Test_Info VALUES ( 'T006',
-                               'D-ABCD',
-                               678901234,
-                               TO_DATE('2023-06-01','YYYY-MM-DD'),
-                               TO_DATE('2023-06-05','YYYY-MM-DD'),
-                               4,
-                               92 );
-INSERT INTO Test_Info VALUES ( 'T007',
-                               'VH-XYZ',
-                               789012345,
-                               TO_DATE('2023-07-10','YYYY-MM-DD'),
-                               TO_DATE('2023-07-15','YYYY-MM-DD'),
-                               3,
-                               88 );
-INSERT INTO Test_Info VALUES ( 'T008',
-                               'JA-ABC',
-                               890123456,
-                               TO_DATE('2023-08-20','YYYY-MM-DD'),
-                               TO_DATE('2023-08-25','YYYY-MM-DD'),
-                               5,
-                               75 );
-INSERT INTO Test_Info VALUES ( 'T009',
-                               'B-1234',
-                               901234567,
-                               TO_DATE('2023-09-15','YYYY-MM-DD'),
-                               TO_DATE('2023-09-20','YYYY-MM-DD'),
-                               2,
-                               90 );
-INSERT INTO Test_Info VALUES ( 'T010',
-                               'OY-XYZ',
-                               112345678,
-                               TO_DATE('2023-10-10','YYYY-MM-DD'),
-                               TO_DATE('2023-10-15','YYYY-MM-DD'),
-                               4,
-                               87 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T001',
+           'F-WWDD',
+           123456789,
+           TO_DATE('2023-01-10','YYYY-MM-DD'),
+           TO_DATE('2023-01-15','YYYY-MM-DD'),
+           5,
+           90 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T002',
+           'F-WWDD',
+           123456789,
+           TO_DATE('2024-01-10','YYYY-MM-DD'),
+           TO_DATE('2024-01-13','YYYY-MM-DD'),
+           6,
+           100 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T003',
+           'F-WWDD',
+           123456789,
+           TO_DATE('2024-01-10','YYYY-MM-DD'),
+           TO_DATE('2024-01-15','YYYY-MM-DD'),
+           7,
+           70 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T004',
+           'F-WWDD',
+           123456789,
+           TO_DATE('2024-01-10','YYYY-MM-DD'),
+           TO_DATE('2024-01-15','YYYY-MM-DD'),
+           9,
+           75 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T002',
+           'A6-EDA',
+           234567890,
+           TO_DATE('2023-02-20','YYYY-MM-DD'),
+           TO_DATE('2023-02-25','YYYY-MM-DD'),
+           4,
+           95 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T003',
+           'N123AB',
+           345678901,
+           TO_DATE('2023-03-15','YYYY-MM-DD'),
+           TO_DATE('2023-03-20','YYYY-MM-DD'),
+           3,
+           80 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T004',
+           'G-AVIT',
+           456789012,
+           TO_DATE('2023-04-10','YYYY-MM-DD'),
+           TO_DATE('2023-04-15','YYYY-MM-DD'),
+           2,
+           85 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T005',
+           'C-FXYZ',
+           567890123,
+           TO_DATE('2023-05-05','YYYY-MM-DD'),
+           TO_DATE('2023-05-10','YYYY-MM-DD'),
+           6,
+           70 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T006',
+           'D-ABCD',
+           678901234,
+           TO_DATE('2023-06-01','YYYY-MM-DD'),
+           TO_DATE('2023-06-05','YYYY-MM-DD'),
+           4,
+           92 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T007',
+           'VH-XYZ',
+           789012345,
+           TO_DATE('2023-07-10','YYYY-MM-DD'),
+           TO_DATE('2023-07-15','YYYY-MM-DD'),
+           3,
+           88 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T008',
+           'JA-ABC',
+           890123456,
+           TO_DATE('2023-08-20','YYYY-MM-DD'),
+           TO_DATE('2023-08-25','YYYY-MM-DD'),
+           5,
+           75 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T009',
+           'B-1234',
+           901234567,
+           TO_DATE('2023-09-15','YYYY-MM-DD'),
+           TO_DATE('2023-09-20','YYYY-MM-DD'),
+           2,
+           90 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T010',
+           'OY-XYZ',
+           112345678,
+           TO_DATE('2023-10-10','YYYY-MM-DD'),
+           TO_DATE('2023-10-15','YYYY-MM-DD'),
+           4,
+           87 );
 
-INSERT INTO Test_Info VALUES ( 'T001',
-                               'F-GHJK',
-                               123456789,
-                               TO_DATE('2023-01-15','YYYY-MM-DD'),
-                               TO_DATE('2023-01-20','YYYY-MM-DD'),
-                               5,
-                               92 );
-INSERT INTO Test_Info VALUES ( 'T006',
-                               'F-GHJK',
-                               123456789,
-                               TO_DATE('2023-01-15','YYYY-MM-DD'),
-                               TO_DATE('2023-01-20','YYYY-MM-DD'),
-                               5,
-                               92 );
-INSERT INTO Test_Info VALUES ( 'T007',
-                               'F-GHJK',
-                               123456789,
-                               TO_DATE('2023-01-15','YYYY-MM-DD'),
-                               TO_DATE('2023-01-20','YYYY-MM-DD'),
-                               5,
-                               92 );
-INSERT INTO Test_Info VALUES ( 'T009',
-                               'F-GHJK',
-                               123456789,
-                               TO_DATE('2023-01-15','YYYY-MM-DD'),
-                               TO_DATE('2023-01-20','YYYY-MM-DD'),
-                               5,
-                               92 );
-INSERT INTO Test_Info VALUES ( 'T002',
-                               'PH-DEF',
-                               234567890,
-                               TO_DATE('2023-02-25','YYYY-MM-DD'),
-                               TO_DATE('2023-03-02','YYYY-MM-DD'),
-                               4,
-                               94 );
-INSERT INTO Test_Info VALUES ( 'T003',
-                               'N456CD',
-                               345678901,
-                               TO_DATE('2023-03-20','YYYY-MM-DD'),
-                               TO_DATE('2023-03-25','YYYY-MM-DD'),
-                               3,
-                               83 );
-INSERT INTO Test_Info VALUES ( 'T004',
-                               'C-GHJK',
-                               456789012,
-                               TO_DATE('2023-04-15','YYYY-MM-DD'),
-                               TO_DATE('2023-04-20','YYYY-MM-DD'),
-                               2,
-                               86 );
-INSERT INTO Test_Info VALUES ( 'T005',
-                               'I-XYZP',
-                               567890123,
-                               TO_DATE('2023-05-10','YYYY-MM-DD'),
-                               TO_DATE('2023-05-15','YYYY-MM-DD'),
-                               6,
-                               78 );
-INSERT INTO Test_Info VALUES ( 'T006',
-                               'D-XYZY',
-                               678901234,
-                               TO_DATE('2023-06-05','YYYY-MM-DD'),
-                               TO_DATE('2023-06-10','YYYY-MM-DD'),
-                               4,
-                               91 );
-INSERT INTO Test_Info VALUES ( 'T007',
-                               'EC-XYZ',
-                               789012345,
-                               TO_DATE('2023-07-15','YYYY-MM-DD'),
-                               TO_DATE('2023-07-20','YYYY-MM-DD'),
-                               3,
-                               89 );
-INSERT INTO Test_Info VALUES ( 'T008',
-                               'ZK-ABC',
-                               890123456,
-                               TO_DATE('2023-08-25','YYYY-MM-DD'),
-                               TO_DATE('2023-08-30','YYYY-MM-DD'),
-                               5,
-                               76 );
-INSERT INTO Test_Info VALUES ( 'T009',
-                               'TC-XYZ',
-                               901234567,
-                               TO_DATE('2023-09-20','YYYY-MM-DD'),
-                               TO_DATE('2023-09-25','YYYY-MM-DD'),
-                               2,
-                               91 );
-INSERT INTO Test_Info VALUES ( 'T010',
-                               'HK-ABC',
-                               112345678,
-                               TO_DATE('2023-10-15','YYYY-MM-DD'),
-                               TO_DATE('2023-10-20','YYYY-MM-DD'),
-                               4,
-                               84 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T001',
+           'F-GHJK',
+           123456789,
+           TO_DATE('2023-01-15','YYYY-MM-DD'),
+           TO_DATE('2023-01-20','YYYY-MM-DD'),
+           5,
+           92 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T006',
+           'F-GHJK',
+           123456789,
+           TO_DATE('2023-01-15','YYYY-MM-DD'),
+           TO_DATE('2023-01-20','YYYY-MM-DD'),
+           5,
+           92 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T007',
+           'F-GHJK',
+           123456789,
+           TO_DATE('2023-01-15','YYYY-MM-DD'),
+           TO_DATE('2023-01-20','YYYY-MM-DD'),
+           5,
+           92 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T009',
+           'F-GHJK',
+           123456789,
+           TO_DATE('2023-01-15','YYYY-MM-DD'),
+           TO_DATE('2023-01-20','YYYY-MM-DD'),
+           5,
+           92 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T002',
+           'PH-DEF',
+           234567890,
+           TO_DATE('2023-02-25','YYYY-MM-DD'),
+           TO_DATE('2023-03-02','YYYY-MM-DD'),
+           4,
+           94 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T003',
+           'N456CD',
+           345678901,
+           TO_DATE('2023-03-20','YYYY-MM-DD'),
+           TO_DATE('2023-03-25','YYYY-MM-DD'),
+           3,
+           83 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T004',
+           'C-GHJK',
+           456789012,
+           TO_DATE('2023-04-15','YYYY-MM-DD'),
+           TO_DATE('2023-04-20','YYYY-MM-DD'),
+           2,
+           86 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T005',
+           'I-XYZP',
+           567890123,
+           TO_DATE('2023-05-10','YYYY-MM-DD'),
+           TO_DATE('2023-05-15','YYYY-MM-DD'),
+           6,
+           78 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T006',
+           'D-XYZY',
+           678901234,
+           TO_DATE('2023-06-05','YYYY-MM-DD'),
+           TO_DATE('2023-06-10','YYYY-MM-DD'),
+           4,
+           91 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T007',
+           'EC-XYZ',
+           789012345,
+           TO_DATE('2023-07-15','YYYY-MM-DD'),
+           TO_DATE('2023-07-20','YYYY-MM-DD'),
+           3,
+           89 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T008',
+           'ZK-ABC',
+           890123456,
+           TO_DATE('2023-08-25','YYYY-MM-DD'),
+           TO_DATE('2023-08-30','YYYY-MM-DD'),
+           5,
+           76 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T009',
+           'TC-XYZ',
+           901234567,
+           TO_DATE('2023-09-20','YYYY-MM-DD'),
+           TO_DATE('2023-09-25','YYYY-MM-DD'),
+           2,
+           91 );
+INSERT INTO Test_Info (
+   Test_Id,
+   Airpl_Regno,
+   Tech_Ssn,
+   Proposed_Date,
+   Actual_Date,
+   Hours,
+   Score
+) VALUES ( 'T010',
+           'HK-ABC',
+           112345678,
+           TO_DATE('2023-10-15','YYYY-MM-DD'),
+           TO_DATE('2023-10-20','YYYY-MM-DD'),
+           4,
+           84 );
 
 
 -- SELECT DISTINCT Airpl_Regno

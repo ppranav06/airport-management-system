@@ -51,7 +51,7 @@ class HomePage(ctk.CTkFrame):
         self.btnAircrafts.place(x=1080,y=400)
         self.btnTechnicians.place(x=1080,y=440) # trying to add all the technicians (can replace later)
         self.btnTests.place(x=1080,y=480)
-        self.btnSingleTechnician.place(x=1080,y=520) # can be removed
+        # self.btnSingleTechnician.place(x=1080,y=520) # can be removed
 
 class BackgroundImage(ctk.CTkLabel):
     def __init__(self, master,bgImage, **kwargs):

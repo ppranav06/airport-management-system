@@ -12,6 +12,9 @@ class Tests:
 
     def GetTestInfo(self,RegistrationNo):
         return self.TestInfoData.GetTestInfo(RegistrationNo)
+
+    def GetTestInfoPerTechnician(self,TechnicianSsn):
+        return self.TestInfoData.GetTestInfoPerTechnician(TechnicianSsn)
     
     def GetAllTestsData(self):
         return self.TestsData.GetAllTestsData()
@@ -27,22 +30,24 @@ class Tests:
         LatestTests={}
         testDetails=self.GetTestInfo(RegistrationNo)
         for i in testDetails:
-            if i[0] not in LatestTests:
-                LatestTests[i[0]]=i
+            if i[1] not in LatestTests:
+                LatestTests[i[1]]=i
             else:
-                if LatestTests[i[0]][4]<i[4]:
-                    LatestTests[i[0]]=i
+                if LatestTests[i[1]][5]<i[5]:
+                    LatestTests[i[1]]=i
         for test in LatestTests.values():
-            if (test[4]+relativedelta(months=test[9])).date()<datetime.datetime.now().date():
+            if (test[5]+relativedelta(months=test[10])).date()<datetime.datetime.now().date():
                 newTest=list(test)
-                newTest[2]=None
-                newTest[3]=(test[4]+relativedelta(months=test[9])).date()
-                newTest[4]=None
+                newTest[3]=None
+                newTest[4]=(test[5]+relativedelta(months=test[10])).date()
                 newTest[5]=None
                 newTest[6]=None
+                newTest[7]=None
                 newTests.append(newTest)
 
         return newTests
 
     def InsertTestInfo(self,TestId,RegNo,Ssn,ProposedDate,ActualDate,Hours,score):
-        self.TestInfoData.InsertTestInfo(TestId,RegNo,Ssn,ProposedDate,ActualDate,Hours,score)
+        self.TestInfoData.InsertTestInfo(TestId,RegNo,Ssn,ProposedDate,ActualDate,Hours,score)  
+
+    

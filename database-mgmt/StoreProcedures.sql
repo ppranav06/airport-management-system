@@ -118,13 +118,21 @@ CREATE OR REPLACE PROCEDURE usp_InsertTestInfo (
    score        IN Test_Info.Score%TYPE
 ) AS
 BEGIN
-   INSERT INTO Test_Info VALUES ( TestId,
-                                  RegNo,
-                                  Ssn,
-                                  ProposedDate,
-                                  ActualDate,
-                                  Hours,
-                                  score );
+   INSERT INTO Test_Info (
+      Test_Id,
+      Airpl_Regno,
+      Tech_Ssn,
+      Proposed_Date,
+      Actual_Date,
+      Hours,
+      Score
+   ) VALUES ( TestId,
+              RegNo,
+              Ssn,
+              ProposedDate,
+              ActualDate,
+              Hours,
+              score );
 END;
 /
 
@@ -133,7 +141,8 @@ CREATE OR REPLACE PROCEDURE usp_GetTestsOfPlane (
    result_cursor OUT SYS_REFCURSOR
 ) AS
 BEGIN
-   OPEN result_cursor FOR SELECT t.TEST_ID,
+   OPEN result_cursor FOR SELECT i.TESTINFO_ID,
+                                 t.TEST_ID,
                                  i.AIRPL_REGNO,
                                  i.TECH_SSN,
                                  i.PROPOSED_DATE,
@@ -150,33 +159,82 @@ BEGIN
                            WHERE Airpl_Regno = RegNo;
 END;
 /
+CREATE OR REPLACE PROCEDURE usp_GetTestsOfTechnician (
+   TechSsn       IN Technician.Ssn%TYPE,
+   result_cursor OUT SYS_REFCURSOR
+) AS
+BEGIN
+   OPEN result_cursor FOR SELECT i.TESTINFO_ID,
+                                 t.TEST_ID,
+                                 i.AIRPL_REGNO,
+                                 i.TECH_SSN,
+                                 i.PROPOSED_DATE,
+                                 i.ACTUAL_DATE,
+                                 i.HOURS,
+                                 i.SCORE,
+                                 t.TEST_NAME,
+                                 t.TEST_DESCRIPTION,
+                                 t.TEST_PERIODICITY,
+                                 t.TEST_MAX_SCORE
+                                                   FROM TEST_INFO i
+                                                   JOIN TEST t
+                                                 ON i.TEST_ID = t.TEST_ID
+                           WHERE i.TECH_SSN = TechSsn;
+END;
+/
 
 -- Procedures to insert data (tests)
 
-CREATE OR REPLACE PROCEDURE USP_CreateTest(
-   v_test_id IN TEST.test_id%TYPE,
-   v_test_name IN TEST.test_name%TYPE, 
-   v_test_max_score IN TEST.test_max_score%TYPE,
+CREATE OR REPLACE PROCEDURE USP_CreateTest (
+   v_test_id          IN TEST.test_id%TYPE,
+   v_test_name        IN TEST.test_name%TYPE,
+   v_test_max_score   IN TEST.test_max_score%TYPE,
    v_test_periodicity IN TEST.test_periodicity%TYPE,
    v_test_description IN TEST.test_description%TYPE
 ) IS
 BEGIN
-   INSERT INTO TEST (test_id, test_name, test_max_score, test_periodicity,test_description)
-      VALUES (v_test_id, v_test_name, v_test_max_score, v_test_periodicity, v_test_description);
+   INSERT INTO TEST (
+      test_id,
+      test_name,
+      test_max_score,
+      test_periodicity,
+      test_description
+   ) VALUES ( v_test_id,
+              v_test_name,
+              v_test_max_score,
+              v_test_periodicity,
+              v_test_description );
 -- EXCEPTION
 --    WHEN OTHERS THEN
 --    DBMS_OUTPUT.PUT_LINE  (SQLERRM);
 END;
 /
 
-CREATE OR REPLACE PROCEDURE USP_DeleteTest(
+CREATE OR REPLACE PROCEDURE USP_DeleteTest (
    v_test_id IN TEST.test_id%TYPE
-) AS 
+) AS
 BEGIN
-   DELETE FROM test WHERE TEST_ID=v_test_id;
+   DELETE FROM test
+    WHERE TEST_ID = v_test_id;
 END;
 /
 
+CREATE OR REPLACE PROCEDURE usp_GetTechnicianExpertise (
+   TechnicianSsn IN Technician_Expertise.Tech_Ssn%TYPE,
+   result_cursor OUT SYS_REFCURSOR
+) AS
+BEGIN
+   OPEN result_cursor FOR SELECT mo.MODEL_NAME,
+                                 ma.MAN_NAME,
+                                 t.YEARS_OF_EXPERIENCE
+                                                   FROM Technician_Expertise t
+                                                   JOIN Model mo
+                                                 ON t.AIRPLANE_MODEL = mo.model_Id
+                                                   JOIN Manufacturer ma
+                                                 ON ma.Man_Id = mo.MANUFACTURER_ID
+                           WHERE Tech_Ssn = TechnicianSsn;
+END;
+/
 -- CREATE OR REPLACE PROCEDURE USP_EditTest(
 --    v_test_id IN TEST.test_id%TYPE
 -- ) AS 
@@ -208,17 +266,23 @@ EXCEPTION
 END;
 /
 
-DECLARE 
-   v_test_id TEST.test_id%TYPE := 'T011';
-   v_test_name TEST.test_name%TYPE := 'OXYGEN MASK TEST';
+DECLARE
+   v_test_id          TEST.test_id%TYPE := 'T011';
+   v_test_name        TEST.test_name%TYPE := 'OXYGEN MASK TEST';
    v_test_description TEST.test_description%TYPE := 'CHECKS IF OXYGEN MASKS ARE PROPERLY INSTALLED';
    v_test_periodicity TEST.test_periodicity%TYPE := 12;
-   v_test_max_score TEST.test_max_score%TYPE := 100;
+   v_test_max_score   TEST.test_max_score%TYPE := 100;
 BEGIN
-   USP_CreateNewTest(v_test_id,v_test_name,v_test_description,v_test_periodicity,v_test_max_score);
+   USP_CreateNewTest(
+      v_test_id,
+      v_test_name,
+      v_test_description,
+      v_test_periodicity,
+      v_test_max_score
+   );
 END;
 /
-   
+
 
 SELECT *
   FROM TEST_INFO

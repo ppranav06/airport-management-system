@@ -7,9 +7,12 @@ from BAL.Tests import Tests
 # AirplaneData=Data.Airplanes
 
 tests=Tests()
+rootPage=None
 class AllTestsPage(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=1400)
+        global rootPage
+        rootPage=self.master
         
         self.technicianSideFrame=SideFrame(self)
         self.technicianSideFrame.pack(side=ctk.LEFT)
@@ -61,8 +64,7 @@ class InsertRow(ctk.CTkFrame):
 
         # Inner buttons to feed the data into database
         self.btnInsert=ctk.CTkButton(self,text='Create',
-                                     command=self.on_click_create
-                                     )
+                                     command=self.on_click_create)
         self.btnCancel=ctk.CTkButton(self,text='Cancel')
         
         self.grid_columnconfigure(0, weight=1,uniform='a')
@@ -76,6 +78,8 @@ class InsertRow(ctk.CTkFrame):
         self.btnCancel.grid(column=5,row=0)
 
 
+
+
     def on_click_create(self):
         test_id = self.txtTestId.get()
         test_name = self.txtTestName.get()
@@ -83,14 +87,18 @@ class InsertRow(ctk.CTkFrame):
         test_periodicity = self.txtTestPeriodicity.get()
         # test_description = self.txtTestDescription.get()
         # print((test_id, test_name, test_max_score, test_periodicity, test_description))
-        tests.CreateTest(
-            test_id, 
-            test_name, 
-            test_max_score, 
-            test_periodicity, 
-            #test_description
-        )
-
+        try:
+            tests.CreateTest(
+                test_id, 
+                test_name, 
+                test_max_score, 
+                test_periodicity
+                #test_description
+            )
+            rootPage.LoadTestsPage
+        except Exception as e:
+            # need a dialog box here!
+            raise e
 
 class HeadingRow(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
