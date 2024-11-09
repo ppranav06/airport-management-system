@@ -415,47 +415,47 @@ INSERT INTO Technician VALUES ( 112345678,
                                 1987654321,
                                 '707 Ash St, Westfield' );
 
-INSERT INTO Technician_Expertise VALUES ( 123456789,
-                                          'M01' );
-INSERT INTO Technician_Expertise VALUES ( 123456789,
-                                          'M02' );
-INSERT INTO Technician_Expertise VALUES ( 234567890,
-                                          'M09' );
-INSERT INTO Technician_Expertise VALUES ( 234567890,
-                                          'M04' );
-INSERT INTO Technician_Expertise VALUES ( 345678901,
-                                          'M05' );
-INSERT INTO Technician_Expertise VALUES ( 345678901,
-                                          'M06' );
-INSERT INTO Technician_Expertise VALUES ( 456789012,
-                                          'M07' );
-INSERT INTO Technician_Expertise VALUES ( 456789012,
-                                          'M07' );
-INSERT INTO Technician_Expertise VALUES ( 567890123,
-                                          'M09' );
-INSERT INTO Technician_Expertise VALUES ( 567890123,
-                                          'M01' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 123456789,'M01' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 123456789,'M02' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 234567890,'M09' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 234567890,'M04' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 345678901,'M05' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 345678901,'M06' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 456789012,'M07' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 456789012,'M07' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 567890123,'M09' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 567890123,'M01' );
 
-INSERT INTO Technician_Expertise VALUES ( 678901234,
-                                          'M01' );
-INSERT INTO Technician_Expertise VALUES ( 678901234,
-                                          'M02' );
-INSERT INTO Technician_Expertise VALUES ( 789012345,
-                                          'M03' );
-INSERT INTO Technician_Expertise VALUES ( 789012345,
-                                          'M04' );
-INSERT INTO Technician_Expertise VALUES ( 890123456,
-                                          'M03' );
-INSERT INTO Technician_Expertise VALUES ( 890123456,
-                                          'M06' );
-INSERT INTO Technician_Expertise VALUES ( 901234567,
-                                          'M05' );
-INSERT INTO Technician_Expertise VALUES ( 901234567,
-                                          'M08' );
-INSERT INTO Technician_Expertise VALUES ( 112345678,
-                                          'M09' );
-INSERT INTO Technician_Expertise VALUES ( 112345678,
-                                          'M010' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 678901234,'M01' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 678901234,'M02' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 789012345,'M03' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 789012345,'M04' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 890123456,'M03' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 890123456,'M06' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 901234567,'M05' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 901234567,'M08' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 112345678,'M09' );
+INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
+                           VALUES ( 112345678,'M010' );
 
 SELECT *
   FROM Technician_Expertise;
