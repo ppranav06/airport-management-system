@@ -1,6 +1,6 @@
 
 import oracledb
-
+from .Exceptions import *
 
 class ManufacturersData:
     def __init__(self,connection) -> None:
@@ -13,7 +13,7 @@ class ManufacturersData:
             result=result_cursor.getvalue().fetchall()
             return result   
         except:
-            raise Exception('Data wasnt accessed properly')
+            raise UnableToAccessData("Data wasn't accessed properly.")
         finally:
             self.connection.close()
         

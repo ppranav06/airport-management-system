@@ -29,17 +29,33 @@ class Tests:
         newTests=[]
         LatestTests={}
         testDetails=self.GetTestInfo(RegistrationNo)
-        for i in testDetails:
-            if i[1] not in LatestTests:
-                LatestTests[i[1]]=i
-            else:
-                if LatestTests[i[1]][5]<i[5]:
-                    LatestTests[i[1]]=i
+        """Structure of testDetails:
+        0: TESTINFO_ID
+        1: TEST_ID
+        2: AIRPL_currentTestID
+        3: TECH_SSN
+        4: PROPOSED_DATE
+        5: ACTUAL_DATE 
+        6: HOURS
+        7: SCORE
+        8: test_name
+        9: test_description
+        10: test_periodicity (months)
+        11: test_max_score
+        """
+        for row in testDetails:
+            currentTestID = row[1]
+            actualTestDate = row[5]
+            if (currentTestID not in LatestTests) or (LatestTests[currentTestID][5]<actualTestDate):
+                LatestTests[currentTestID]=row
+            
         for test in LatestTests.values():
-            if (test[5]+relativedelta(months=test[10])).date()<datetime.datetime.now().date():
+            actualTestDate = test[5]
+            if (actualTestDate+relativedelta(months=test[10])).date() < datetime.datetime.now().date():
+                # 
                 newTest=list(test)
                 newTest[3]=None
-                newTest[4]=(test[5]+relativedelta(months=test[10])).date()
+                newTest[4]=(actualTestDate+relativedelta(months=test[10])).date()
                 newTest[5]=None
                 newTest[6]=None
                 newTest[7]=None

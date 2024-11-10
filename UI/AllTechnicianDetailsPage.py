@@ -24,6 +24,9 @@ class SideFrame(ctk.CTkFrame):
         self.btnHome=ctk.CTkButton(self,text='Home',command=self.master.master.LoadHomePage)
         self.btnHome.pack(side=ctk.BOTTOM)
         
+        self.btnBack=ctk.CTkButton(self,text='Back',command=self.master.master.LoadHomePage)
+        self.btnBack.pack(side=ctk.BOTTOM)
+        
 class AllTechniciansFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=1150,fg_color='white')

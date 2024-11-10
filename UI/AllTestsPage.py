@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from tkinter import messagebox
 import PIL,re
 
 from DATA.Data import Data
@@ -7,12 +8,12 @@ from BAL.Tests import Tests
 # AirplaneData=Data.Airplanes
 
 tests=Tests()
-rootPage=None
+home=None
 class AllTestsPage(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=1400)
-        global rootPage
-        rootPage=self.master
+        global home
+        home=self.master
         
         self.technicianSideFrame=SideFrame(self)
         self.technicianSideFrame.pack(side=ctk.LEFT)
@@ -28,6 +29,9 @@ class SideFrame(ctk.CTkFrame):
 
         self.btnHome=ctk.CTkButton(self,text='Home',command=self.master.master.LoadHomePage)
         self.btnHome.pack(side=ctk.BOTTOM)
+        
+        self.btnBack=ctk.CTkButton(self,text='Back',command=home.LoadHomePage)
+        self.btnBack.pack(side=ctk.BOTTOM)
         
 class AllTestsFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
@@ -75,17 +79,23 @@ class InsertRow(ctk.CTkFrame):
 
         # Inner buttons to feed the data into database
         self.btnInsert=ctk.CTkButton(self,text='Create',
-                                     command=self.on_click_create)
-        self.btnCancel=ctk.CTkButton(self,text='Cancel',command=self.Cancel)
+                                     command=self.Create)
+        self.btnCancel=ctk.CTkButton(self,text='Cancel',
+                                     command=home.testsPage.pack())
         
+        self.grid_columnconfigure(0, weight=1,uniform='a')
+        self.grid_columnconfigure(1, weight=1,uniform='a')
+        self.grid_columnconfigure(2, weight=1,uniform='a')
+        self.grid_columnconfigure(3, weight=1,uniform='a')
+        self.grid_columnconfigure(4, weight=1,uniform='a')
+        self.grid_columnconfigure(5, weight=1,uniform='a')
+        self.grid_columnconfigure(6, weight=1,uniform='a')
 
-        self.btnInsert.grid(column=4,row=0)
-        self.btnCancel.grid(column=5,row=0)
+        self.btnInsert.grid(column=5,row=0)
+        self.btnCancel.grid(column=6,row=0)
 
-
-
-
-    def on_click_create(self):
+    def Create(self):
+        """Creates a new test on clicking the 'Create' button"""
         test_id = self.txtTestId.get()
         test_name = self.txtTestName.get()
         test_max_score = self.txtTestMaxScore.get()

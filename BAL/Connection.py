@@ -1,7 +1,7 @@
 import oracledb
 import os
 from dotenv import load_dotenv
-
+from .Exceptions import *
 
 
 load_dotenv()
@@ -14,12 +14,18 @@ class Connection:
         self.port =os.environ.get('PORT')
         self.service_name  =os.environ.get('SERVICE_NAME')
 
-        self.dsn_tns = oracledb.makedsn(self.ip, self.port, service_name=self.service_name)
+        try:
+            self.dsn_tns = oracledb.makedsn(self.ip, self.port, service_name=self.service_name)
+        except Exception as e:
+            raise e
 
     def cursor(self):
-        self.connection=oracledb.connect(user=self.user,password=self.password,dsn=self.dsn_tns)
-        self.cursor=self.connection.cursor()
-        return self.cursor
+        try:
+            self.connection=oracledb.connect(user=self.user,password=self.password,dsn=self.dsn_tns)
+            self.cursor=self.connection.cursor()
+            return self.cursor
+        except Exception as e:
+            raise e
     
     def close(self):
         
