@@ -69,13 +69,13 @@ CREATE TABLE Test (
 
 CREATE TABLE Test_Info (
    TestInfo_ID   VARCHAR(10),
-   Test_Id       VARCHAR(4),
-   Airpl_Regno   VARCHAR(10),
-   Tech_Ssn      NUMBER(9),
-   Proposed_Date DATE,
+   Test_Id       VARCHAR(4)   NOT NULL,
+   Airpl_Regno   VARCHAR(10)  NOT NULL,
+   Tech_Ssn      NUMBER(9)    NOT NULL,
+   Proposed_Date DATE         NOT NULL,
    Actual_Date   DATE,
-   Hours         INTEGER,
-   Score         INTEGER,
+   Hours         INTEGER      NOT NULL,
+   Score         INTEGER      NOT NULL,
    CONSTRAINT Test_Info_References_Test FOREIGN KEY ( Test_Id )
       REFERENCES Test ( Test_Id ),
    CONSTRAINT Test_Info_References_Airplane FOREIGN KEY ( Airpl_Regno )

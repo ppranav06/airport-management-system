@@ -12,8 +12,7 @@ class Connection:
         self.password=os.environ.get('PASSWORD')
         self.ip=os.environ.get('IP')
         self.port =os.environ.get('PORT')
-        # self.service_name  =os.environ.get('SERVICE_NAME')
-        self.service_name  =None
+        self.service_name  =os.environ.get('SERVICE_NAME')
 
         try:
             self.dsn_tns = oracledb.makedsn(self.ip, self.port, service_name=self.service_name)
