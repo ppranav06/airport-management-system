@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from tkinter import messagebox
 import PIL
 
 from DATA.Data import Data
@@ -88,7 +89,8 @@ class InsertRow(ctk.CTkFrame):
             )
             rootPage.LoadAllTechnicianDetailsPage()
         except Exception as e:
-            raise e
+            # raise e
+            messagebox.showerror(title='ERROR', message=e)
         
         
 

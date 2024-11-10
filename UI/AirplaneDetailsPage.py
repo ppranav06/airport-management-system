@@ -1,10 +1,10 @@
 import customtkinter as ctk
+from tkinter import messagebox
 import PIL,datetime
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from BAL.Airplanes import Airplanes
 from BAL.Tests import Tests
-
 
 # from DATA.Data import Data
 
@@ -210,7 +210,7 @@ class PendingTestRow(ctk.CTkFrame):
                                  self.testVariablesInsertionFrame.txtTestScore.get())
             home.LoadAirplaneDetailsPage(TestDetails[2])
         except Exception as e:
-            raise e
+            messagebox.showerror(title='ERROR', message=e)
 
 class TestRowExpansion(ctk.CTkFrame):
     def __init__(self, master,TestDetails, **kwargs):

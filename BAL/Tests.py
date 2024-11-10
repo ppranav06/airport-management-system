@@ -21,7 +21,10 @@ class Tests:
     
     def CreateTest(self, test_id, test_name, test_max_score, test_periodicity, test_description="Default description: This is a test."):
         """Creates a new test in the test table."""
-        self.TestsData.CreateTest(test_id, test_name, test_max_score, test_periodicity,test_description)
+        try:
+            self.TestsData.CreateTest(test_id, test_name, test_max_score, test_periodicity,test_description)
+        except Exception as e:
+            raise e
 
     
     def CreateNewTests(self,RegistrationNo):
@@ -64,12 +67,21 @@ class Tests:
         return newTests
 
     def InsertTestInfo(self,TestId,RegNo,Ssn,ProposedDate,ActualDate,Hours,score):
-        self.TestInfoData.InsertTestInfo(TestId,RegNo,Ssn,ProposedDate,ActualDate,Hours,score)  
+        try:
+            self.TestInfoData.InsertTestInfo(TestId,RegNo,Ssn,ProposedDate,ActualDate,Hours,score)  
+        except Exception as e:
+            raise e
 
     def UpdateTestData(self,TestID,TestName,Description,Periodicity,MaxScore):
-        self.TestsData.UpdateTestData(TestID,TestName,Description,Periodicity,MaxScore)
+        try:
+            self.TestsData.UpdateTestData(TestID,TestName,Description,Periodicity,MaxScore)
+        except Exception as e:
+            raise e
 
     def DeleteTest(self,TestID):
-        self.TestsData.DeleteTest(TestID)
+        try:
+            self.TestsData.DeleteTest(TestID)
+        except Exception as e:
+            raise e
 
     
