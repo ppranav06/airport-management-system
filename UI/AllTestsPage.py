@@ -8,12 +8,12 @@ from BAL.Tests import Tests
 # AirplaneData=Data.Airplanes
 
 tests=Tests()
-home=None
+rootPage=None
 class AllTestsPage(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=1400)
         global home
-        home=self.master
+        rootPage=self.master
         
         self.technicianSideFrame=SideFrame(self)
         self.technicianSideFrame.pack(side=ctk.LEFT)
