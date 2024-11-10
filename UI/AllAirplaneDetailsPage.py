@@ -1,13 +1,15 @@
 import customtkinter as ctk
 import PIL
 from BAL import Airplanes
+from Images.Images import Images
 
 from DATA.Data import Data
 
-ModelData=Data.Models
-AirplaneData=Data.Airplanes
+# ModelData=Data.Models
+# AirplaneData=Data.Airplanes
 
 airplanes=Airplanes.Airplanes()
+images=Images()
 class AllAirplanesPage(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=1400)
@@ -74,8 +76,9 @@ class ManufacturersFrame(ctk.CTkScrollableFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=380,fg_color='white')
          
-        ManufacturerImage=ctk.CTkImage(light_image=PIL.Image.open(r'Images\6131.webp'),size=(250,150))
+        # ManufacturerImage=ctk.CTkImage(light_image=PIL.Image.open(r'Images\6131.webp'),size=(250,150))
         for manufacturerID,manufacturerName in airplanes.GetAllManufacturers():
+            ManufacturerImage=ctk.CTkImage(light_image=images.ManufacturerImages[manufacturerName],size=(250,150))
             btn=ctk.CTkButton(self,image=ManufacturerImage,
                               text=manufacturerName,
                               command=lambda i=manufacturerID,m=manufacturerName:self.SelectNewManufacturer(i,m),
@@ -110,8 +113,8 @@ class AirplanesPlaceHolderFrame(ctk.CTkFrame):
 class ModelsFrame(ctk.CTkScrollableFrame):
     def __init__(self, master,manufacturerID, **kwargs):
         super().__init__(master, **kwargs,height=700,width=380,fg_color='white')
-        ModelImage=ctk.CTkImage(light_image=PIL.Image.open(r'Images\737.jpeg'),size=(250,200))
         for modelData in airplanes.GetModels(manufacturerID):
+            ModelImage=ctk.CTkImage(light_image=images.ModelImages[modelData[1]],size=(300,200))
             btn=ctk.CTkButton(self,
                                 image=ModelImage,
                                 text=modelData[1],

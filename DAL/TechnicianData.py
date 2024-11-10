@@ -27,3 +27,22 @@ class TechnicianData:
             raise e
         finally:
             self.connection.close()
+
+    def CreateTechnician(self,v_Ssn,v_Name,v_Salary,v_Phno,v_Address):
+        try:
+            cursor=self.connection.cursor()
+            cursor.callproc('usp_CreateTechnician', [str(v_Ssn),str(v_Name),str(v_Salary),str(v_Phno),str(v_Address)])
+        except Exception as e:
+            raise e
+        finally:
+            self.connection.close()
+    def UpdateTechnician(self,v_Ssn,v_Salary,v_Phno,v_Address):
+        try:
+            cursor=self.connection.cursor()
+            cursor.callproc('usp_UpdateTechnician', [str(v_Ssn),str(v_Salary),str(v_Phno),str(v_Address)])
+        except Exception as e:
+            raise e
+        finally:
+            self.connection.close()
+    
+    

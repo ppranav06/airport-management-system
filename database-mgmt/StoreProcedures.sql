@@ -210,6 +210,22 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE PROCEDURE USP_CreateTechnician (
+   v_Ssn     IN TECHNICIAN.SSN%TYPE,
+   v_Name    IN TECHNICIAN.Name%TYPE,
+   v_Salary  IN TECHNICIAN.Salary%TYPE,
+   v_Phno    IN TECHNICIAN.Phno%TYPE,
+   v_Address IN TECHNICIAN.Address%TYPE
+) IS
+BEGIN
+   INSERT INTO TECHNICIAN VALUES ( v_Ssn,
+                                   v_Name,
+                                   v_Salary,
+                                   v_Phno,
+                                   v_Address );
+END;
+/
+
 CREATE OR REPLACE PROCEDURE USP_DeleteTest (
    v_test_id IN TEST.test_id%TYPE
 ) AS
@@ -291,22 +307,22 @@ EXCEPTION
 END;
 /
 
-DECLARE
-   v_test_id          TEST.test_id%TYPE := 'T011';
-   v_test_name        TEST.test_name%TYPE := 'OXYGEN MASK TEST';
-   v_test_description TEST.test_description%TYPE := 'CHECKS IF OXYGEN MASKS ARE PROPERLY INSTALLED';
-   v_test_periodicity TEST.test_periodicity%TYPE := 12;
-   v_test_max_score   TEST.test_max_score%TYPE := 100;
-BEGIN
-   USP_CreateNewTest(
-      v_test_id,
-      v_test_name,
-      v_test_description,
-      v_test_periodicity,
-      v_test_max_score
-   );
-END;
-/
+-- DECLARE
+--    v_test_id          TEST.test_id%TYPE := 'T011';
+--    v_test_name        TEST.test_name%TYPE := 'OXYGEN MASK TEST';
+--    v_test_description TEST.test_description%TYPE := 'CHECKS IF OXYGEN MASKS ARE PROPERLY INSTALLED';
+--    v_test_periodicity TEST.test_periodicity%TYPE := 12;
+--    v_test_max_score   TEST.test_max_score%TYPE := 100;
+-- BEGIN
+--    USP_CreateNewTest(
+--       v_test_id,
+--       v_test_name,
+--       v_test_description,
+--       v_test_periodicity,
+--       v_test_max_score
+--    );
+-- END;
+-- /
 
 
 SELECT *

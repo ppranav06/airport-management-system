@@ -12,7 +12,7 @@ rootPage=None
 class AllTestsPage(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=1400)
-        global home
+        global rootPage
         rootPage=self.master
         
         self.technicianSideFrame=SideFrame(self)
@@ -27,10 +27,10 @@ class SideFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=250)
 
-        self.btnHome=ctk.CTkButton(self,text='Home',command=self.master.master.LoadHomePage)
+        self.btnHome=ctk.CTkButton(self,text='Home',command=rootPage.LoadHomePage)
         self.btnHome.pack(side=ctk.BOTTOM)
         
-        self.btnBack=ctk.CTkButton(self,text='Back',command=home.LoadHomePage)
+        self.btnBack=ctk.CTkButton(self,text='Back',command=rootPage.LoadHomePage)
         self.btnBack.pack(side=ctk.BOTTOM)
         
 class AllTestsFrame(ctk.CTkFrame):
@@ -81,7 +81,7 @@ class InsertRow(ctk.CTkFrame):
         self.btnInsert=ctk.CTkButton(self,text='Create',
                                      command=self.Create)
         self.btnCancel=ctk.CTkButton(self,text='Cancel',
-                                     command=home.testsPage.pack())
+                                     command=rootPage.testsPage.pack())
         
         self.grid_columnconfigure(0, weight=1,uniform='a')
         self.grid_columnconfigure(1, weight=1,uniform='a')

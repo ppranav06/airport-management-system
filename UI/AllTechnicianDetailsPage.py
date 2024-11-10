@@ -5,9 +5,12 @@ from DATA.Data import Data
 from BAL.Technician import Technician
 
 technicians = Technician()
+rootPage=None
 class AllTechnicianDetailsPage(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=1400)
+        global rootPage
+        rootPage=self.master
         
         self.technicianSideFrame=SideFrame(self)
         self.technicianSideFrame.pack(side=ctk.LEFT)
@@ -46,7 +49,7 @@ class InsertRow(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,width=1150,height=50)
 
-        self.btnInsert=ctk.CTkButton(self,text='Create')
+        self.btnInsert=ctk.CTkButton(self,text='Create',command=self.Create)
         self.btnCancel=ctk.CTkButton(self,text='Cancel')
 
         self.grid_columnconfigure(0, weight=1,uniform='a')
@@ -64,15 +67,29 @@ class InsertRow(ctk.CTkFrame):
         self.txtTechnicianSalary=ctk.CTkEntry(self,placeholder_text="Salary")
         self.txtTechnicianPhno=ctk.CTkEntry(self,placeholder_text="Phone No")
         self.txtTechnicianAddress=ctk.CTkEntry(self,placeholder_text="Address")
-        self.txtTechnicianDetails=ctk.CTkTextbox(self,height=300,width=500)
-        self.txtTechnicianDetails.insert("0.0","Details")
+        # self.txtTechnicianDetails=ctk.CTkTextbox(self,height=300,width=500)
+        # self.txtTechnicianDetails.insert("0.0","Details")
 
         self.txtTechnicianSSN.grid(row=0,column=0)
         self.txtTechnicianName.grid(row=0,column=1)
         self.txtTechnicianSalary.grid(row=0,column=2)
         self.txtTechnicianPhno.grid(row=0,column=3)
         self.txtTechnicianAddress.grid(row=0,column=4)
-        self.txtTechnicianDetails.grid(row=1,column=0)
+        # self.txtTechnicianDetails.grid(row=1,column=0)
+
+    def Create(self):
+        try:
+            technicians.CreateTechnician(
+                self.txtTechnicianSSN.get(),
+                self.txtTechnicianName.get(),
+                self.txtTechnicianSalary.get(),
+                self.txtTechnicianPhno.get(),
+                self.txtTechnicianAddress.get()
+            )
+            rootPage.LoadAllTechnicianDetailsPage()
+        except Exception as e:
+            raise e
+        
         
 
 class HeadingRow(ctk.CTkFrame):

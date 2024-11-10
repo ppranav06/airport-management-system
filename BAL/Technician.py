@@ -17,3 +17,9 @@ class Technician:
     
     def GetTechnicianExpertise(self,TechnicianSsn):
         return self.TechnicianExpertiseData.getTechnicianExpertise(TechnicianSsn)
+
+    def CreateTechnician(self,v_Ssn,v_Name,v_Salary,v_Phno,v_Address):
+        self.technicianData.CreateTechnician(v_Ssn,v_Name,v_Salary,v_Phno,v_Address)
+    
+    def UpdateTechnician(self,v_Ssn,v_Salary,v_Phno,v_Address):
+        self.technicianData.UpdateTechnician(v_Ssn,v_Salary,v_Phno,v_Address)

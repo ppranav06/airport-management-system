@@ -5,7 +5,6 @@ from BAL.Tests import Tests
 import datetime
 from dateutil.relativedelta import relativedelta
 
-from DATA.Data import Data
 
 technician=Technician()
 tests=Tests()
@@ -28,7 +27,6 @@ class TechnicianSideFrame(ctk.CTkFrame):
         super().__init__(master, **kwargs,height=700,width=250)
         
         
-
         TechnicianImage=ctk.CTkImage(light_image=PIL.Image.open(r'Images\Technician3.jpg'),size=(250,250))
         self.lblImage=ctk.CTkLabel(master=self,image=TechnicianImage,text="")
         self.lblImage.pack()
@@ -155,21 +153,30 @@ class EditableDetailsGrid(ctk.CTkFrame):
         self.btnCancel.grid(row=4,column=1)
 
     def Save(self):
-        self.Address.set(self.newAddress.get())
-        self.ContactNo.set(self.newContactNo.get())
-        self.Salary.set(self.newSalary.get())
-        
-        self.txtAddress.grid_forget()
-        self.txtContactNumber.grid_forget()
-        self.txtSalary.grid_forget()
+        try:
+            technician.UpdateTechnician(
+                self.Ssn.get(),
+                self.newSalary.get(),
+                self.newContactNo.get(),
+                self.newAddress.get()
+            )
+            self.Address.set(self.newAddress.get())
+            self.ContactNo.set(self.newContactNo.get())
+            self.Salary.set(self.newSalary.get())
+            
+            self.txtAddress.grid_forget()
+            self.txtContactNumber.grid_forget()
+            self.txtSalary.grid_forget()
 
-        self.lblAddressVal.grid(column=1,row=1,padx=10,sticky='w')
-        self.lblContactNumberVal.grid(column=1,row=2,padx=10,sticky='w')
-        self.lblSalaryVal.grid(column=1,row=3,padx=10,sticky='w')
+            self.lblAddressVal.grid(column=1,row=1,padx=10,sticky='w')
+            self.lblContactNumberVal.grid(column=1,row=2,padx=10,sticky='w')
+            self.lblSalaryVal.grid(column=1,row=3,padx=10,sticky='w')
 
-        self.btnEdit.grid(row=4,column=1)
-        self.btnSave.grid_forget()
-        self.btnCancel.grid_forget()
+            self.btnEdit.grid(row=4,column=1)
+            self.btnSave.grid_forget()
+            self.btnCancel.grid_forget()
+        except Exception as e:
+            raise e
     
     def Cancel(self,TechnicianSsn):
         rootPage.LoadTechnicianDetailsPage(TechnicianSsn)
