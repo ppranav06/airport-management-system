@@ -1,1 +1,1 @@
-from . import ManufacturersData,ModelData,AirplaneData,TestInfoData,TestData,TechnicianData,TechinicanExpertiseData
+from . import ManufacturersData,ModelData,AirplaneData,TestInfoData,TestData,TechnicianData,TechinicanExpertiseData,Exceptions
