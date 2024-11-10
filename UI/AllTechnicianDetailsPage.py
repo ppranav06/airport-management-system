@@ -96,7 +96,7 @@ class HeadingRow(ctk.CTkFrame):
         self.lblTechnicianSalary.grid(column=2,row=0)
         self.lblTechnicianPhno.grid(column=3,row=0)
         self.lblTechnicianAddress.grid(column=4,row=0)
-        self.btnTechnicianDetailsVal=ctk.CTkButton(self,text='Details').grid(column=5,row=0)
+        # self.btnTechnicianDetailsVal=ctk.CTkButton(self,text='Details').grid(column=5,row=0)
     # dummylabel=ctk.CTkLabel(self,text='a').grid(column=4,row=0)
 
 class TechnicianRow(ctk.CTkFrame):

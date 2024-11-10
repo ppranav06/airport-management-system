@@ -1,5 +1,5 @@
 import customtkinter as ctk
-import PIL
+import PIL,re
 
 from DATA.Data import Data
 from BAL.Tests import Tests
@@ -33,46 +33,51 @@ class AllTestsFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=1150,fg_color='white')
 
-        testrow=TestsFrame(self,100)
-        testrow.pack(fill='x',pady=3)
+        testrow=TestsFrame(self)
+        testrow.pack(fill='both',pady=3)
 
         self.btnInsert=ctk.CTkButton(self,text='Create New Test',command=self.PackInsertFrame)
         self.btnInsert.pack()
 
     def PackInsertFrame(self):
         self.insertFrame=InsertRow(self)
-        self.insertFrame.pack()
+        self.insertFrame.pack(fill='y')
         self.btnInsert.pack_forget()
 
 class InsertRow(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
-        super().__init__(master, **kwargs,width=1150,height=50)
+        super().__init__(master, **kwargs,height=300,width=1150)
 
-        self.txtTestId=ctk.CTkEntry(self,placeholder_text="Test Id")
-        self.txtTestName=ctk.CTkEntry(self,placeholder_text="Test Name")
-        self.txtTestMaxScore=ctk.CTkEntry(self,placeholder_text="Max Score")
-        self.txtTestPeriodicity=ctk.CTkEntry(self,placeholder_text="Periodicity")
-        self.txtDescription=ctk.CTkTextbox(self,height=300,width=500)
-        self.txtDescription.insert("0.0","Description")
-
-        self.txtTestId.grid(row=0,column=0)
-        self.txtTestName.grid(row=0,column=1)
-        self.txtTestMaxScore.grid(row=0,column=2)
-        self.txtTestPeriodicity.grid(row=0,column=3)
-        self.txtDescription.grid(row=1,column=0)
-
-
-        # Inner buttons to feed the data into database
-        self.btnInsert=ctk.CTkButton(self,text='Create',
-                                     command=self.on_click_create)
-        self.btnCancel=ctk.CTkButton(self,text='Cancel')
-        
         self.grid_columnconfigure(0, weight=1,uniform='a')
         self.grid_columnconfigure(1, weight=1,uniform='a')
         self.grid_columnconfigure(2, weight=1,uniform='a')
         self.grid_columnconfigure(3, weight=1,uniform='a')
         self.grid_columnconfigure(4, weight=1,uniform='a')
         self.grid_columnconfigure(5, weight=1,uniform='a')
+
+        self.rowconfigure((0,1),weight=1)
+
+        self.txtTestId=ctk.CTkEntry(self,placeholder_text="Test Id")
+        self.txtTestName=ctk.CTkEntry(self,placeholder_text="Test Name")
+        self.txtTestMaxScore=ctk.CTkEntry(self,placeholder_text="Max Score")
+        self.txtTestPeriodicity=ctk.CTkEntry(self,placeholder_text="Periodicity")
+        self.lblDescription=ctk.CTkLabel(self,text='Enter Description')
+        self.txtDescription=ctk.CTkTextbox(self,height=150,width=500)
+
+        self.txtTestId.grid(row=0,column=0)
+        self.txtTestName.grid(row=0,column=1)
+        self.txtTestMaxScore.grid(row=0,column=2)
+        self.txtTestPeriodicity.grid(row=0,column=3)
+        self.lblDescription.grid(row=1,column=1,sticky='ne',pady=5,padx=5)
+        self.txtDescription.grid(row=1,column=2,pady=5,columnspan=2,padx=10)
+        
+
+
+        # Inner buttons to feed the data into database
+        self.btnInsert=ctk.CTkButton(self,text='Create',
+                                     command=self.on_click_create)
+        self.btnCancel=ctk.CTkButton(self,text='Cancel',command=self.Cancel)
+        
 
         self.btnInsert.grid(column=4,row=0)
         self.btnCancel.grid(column=5,row=0)
@@ -85,20 +90,23 @@ class InsertRow(ctk.CTkFrame):
         test_name = self.txtTestName.get()
         test_max_score = self.txtTestMaxScore.get()
         test_periodicity = self.txtTestPeriodicity.get()
-        # test_description = self.txtTestDescription.get()
+        test_description = self.txtDescription.get("0.0", "end")
         # print((test_id, test_name, test_max_score, test_periodicity, test_description))
         try:
             tests.CreateTest(
                 test_id, 
                 test_name, 
                 test_max_score, 
-                test_periodicity
-                #test_description
+                test_periodicity,
+                test_description
             )
-            rootPage.LoadTestsPage
+            rootPage.LoadTestsPage()
         except Exception as e:
             # need a dialog box here!
             raise e
+        
+    def Cancel(self):
+        rootPage.LoadTestsPage()
 
 class HeadingRow(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
@@ -121,7 +129,7 @@ class HeadingRow(ctk.CTkFrame):
         self.lblTestNameHeading.grid(column=1,row=0)
         self.lblTestMaxScoreHeading.grid(column=2,row=0)
         self.lblTestPeriodicityHeading.grid(column=3,row=0)
-        self.btnDescriptionVal=ctk.CTkButton(self,text='Description').grid(column=4,row=0)
+        # self.btnDescriptionVal=ctk.CTkButton(self,text='Description').grid(column=4,row=0)
     # dummylabel=ctk.CTkLabel(self,text='a').grid(column=4,row=0)
 
 class TestRow(ctk.CTkFrame):
@@ -160,9 +168,11 @@ class TestRow(ctk.CTkFrame):
         self.txtTestPeriodicity=ctk.CTkEntry(self,textvariable=self.newPeriodicity)
 
     def Edit(self):
+        noOfMonths=int(re.search('^[0-9]*',self.Periodicity.get()).group(0))
+
         self.newTestName.set(self.TestName.get())
         self.newMaxScore.set(self.MaxScore.get())
-        self.newPeriodicity.set(self.Periodicity.get())
+        self.newPeriodicity.set(noOfMonths)
         
         self.lblTestNameVal.grid_forget()
         self.lblTestMaxScoreVal.grid_forget()
@@ -175,7 +185,7 @@ class TestRow(ctk.CTkFrame):
     def Save(self):
         self.TestName.set(self.newTestName.get())
         self.MaxScore.set(self.newMaxScore.get())
-        self.Periodicity.set(self.newPeriodicity.get())
+        self.Periodicity.set(str(self.newPeriodicity.get())+' months')
         
         self.txtTestName.grid_forget()
         self.txtTestMaxScore.grid_forget()
@@ -184,6 +194,9 @@ class TestRow(ctk.CTkFrame):
         self.lblTestNameVal.grid(row=0,column=1)
         self.lblTestMaxScoreVal.grid(row=0,column=2)
         self.lblTestPeriodicityVal.grid(row=0,column=3)
+
+    def Delete(self):
+        self.pack_forget()
         
 
 class TestRowExpansion(ctk.CTkFrame):
@@ -197,6 +210,7 @@ class TestRowExpansion(ctk.CTkFrame):
         self.grid_columnconfigure(1,weight=2)
         self.grid_columnconfigure(2,weight=2)
         self.grid_columnconfigure(3,weight=2)
+        self.grid_columnconfigure(4,weight=2)
         self.grid_rowconfigure(0,minsize=200)
 
         # self.extraDetails=ExtraDetails(self,TestNo)
@@ -208,27 +222,44 @@ class TestRowExpansion(ctk.CTkFrame):
         self.btnLess=ctk.CTkButton(self,text='less',command=lambda:self.master.ShowLess(self.TestNo))
         self.btnLess.grid(column=3,row=0,sticky='w')
 
+
         self.btnEdit=ctk.CTkButton(self,text='Edit',command=self.Edit)
         self.btnEdit.grid(column=4,row=0)
+        self.btnDelete=ctk.CTkButton(self,text='Delete',command=lambda m=testDetails[0]:self.Delete(m))
+        self.btnDelete.grid(column=5,row=0,sticky='w')
 
-        self.btnSave=ctk.CTkButton(self,text='Save',command=self.Save)
+        self.btnSave=ctk.CTkButton(self,text='Save',command=lambda m=testDetails[0]:self.Save(m))
 
-    def Save(self):
-        self.master.TestRows[self.TestNo].Save()
-        self.btnSave.grid_forget()
-        self.btnEdit.grid(column=4,row=0)
-        self.descriptionBox.Save()
+    def Save(self,testID):
+        try:
+            testRow=self.master.TestRows[self.TestNo]
+            tests.UpdateTestData(testID,testRow.newTestName.get(),self.descriptionBox.txtDescription.get("0.0", "end"),testRow.newPeriodicity.get(),testRow.newMaxScore.get())
+            testRow.Save()
+            self.descriptionBox.Save()
+            self.btnSave.grid_forget()
+            self.btnEdit.grid(column=4,row=0)
+        except Exception as e:
+            raise e
+        
 
     def Edit(self):
         self.master.TestRows[self.TestNo].Edit()
+        self.descriptionBox.Edit()
         self.btnEdit.grid_forget()
         self.btnSave.grid(column=4,row=0)
-        self.descriptionBox.Edit()
+
+    def Delete(self,TestID):
+        try:
+            tests.DeleteTest(TestID)
+            self.master.TestRows[self.TestNo].Delete()
+            self.pack_forget()
+        except Exception as e:
+            raise e
 
 class DescriptionBox(ctk.CTkFrame):
     def __init__(self, master,testDetails, **kwargs):
         super().__init__(master, **kwargs,
-                         height=300,
+                         height=250,
                          width=400,
                          fg_color='white',
                          corner_radius=5)
@@ -246,31 +277,17 @@ class DescriptionBox(ctk.CTkFrame):
         self.txtDescription.pack(fill='both')
         self.txtDescription.insert("0.0", self.Description)
         self.txtDescription.configure(state='disabled')
-        # self.txtDescription.insert("0.0","a\n")
 
     def Edit(self):
         self.txtDescription.configure(state='normal')
-        # self.txtDescription.delete("0.0", "end")
-        # self.txtDescription.insert("0.0", self.Description)
-        # self.newDescription=self.Description
-        # self.lblDescriptionVal.pack_forget()
-        # self.txtDescription.pack(fill='both',padx=5)
-        # self.configure(fg_color='transparent')
         
     def Save(self):
         self.txtDescription.configure(state='disabled')
-        # self.Description=self.txt
-        # self.txtDescription.pack_forget()
-        # self.lblDescriptionVal.pack(fill='both',padx=5)
-        # self.configure(fg_color='white')
 
     
 class ExtraDetails(ctk.CTkFrame):
     def __init__(self, master,TestNo, **kwargs):
-        super().__init__(master, **kwargs,
-                         width=200,
-                         height=200,
-                         corner_radius=5)
+        super().__init__(master, **kwargs,width=200,height=200,corner_radius=5)
         
         self.lblProposedDate=ctk.CTkLabel(self,text="Proposed Date",anchor='w',justify='left')
         self.lblActualTestDate=ctk.CTkLabel(self,text="Actual Test Date",anchor='w',justify='left')
@@ -299,8 +316,8 @@ class ExtraDetails(ctk.CTkFrame):
     
     
 class TestsFrame(ctk.CTkScrollableFrame):
-    def __init__(self, master,RegistrationNumber, **kwargs):
-        super().__init__(master, **kwargs,height=650,width=1150)
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs,width=1150,height=400)
         alltests=tests.GetAllTestsData()
 
         self.TestRows={}

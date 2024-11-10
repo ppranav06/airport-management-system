@@ -2,7 +2,7 @@ from DAL.TestInfoData import TestInfoData
 from DAL.TestData import TestData
 from .Connection import Connection
 from dateutil.relativedelta import relativedelta
-import datetime
+import datetime,re
 
 
 class Tests:
@@ -49,5 +49,11 @@ class Tests:
 
     def InsertTestInfo(self,TestId,RegNo,Ssn,ProposedDate,ActualDate,Hours,score):
         self.TestInfoData.InsertTestInfo(TestId,RegNo,Ssn,ProposedDate,ActualDate,Hours,score)  
+
+    def UpdateTestData(self,TestID,TestName,Description,Periodicity,MaxScore):
+        self.TestsData.UpdateTestData(TestID,TestName,Description,Periodicity,MaxScore)
+
+    def DeleteTest(self,TestID):
+        self.TestsData.DeleteTest(TestID)
 
     

@@ -31,3 +31,21 @@ class TestData:
             raise e
         finally:
             self.connection.close()
+
+    def DeleteTest(self,TestID):
+        try:
+            cursor=self.connection.cursor()
+            cursor.callproc('USP_DeleteTest', [str(TestID)])
+        except Exception as e:
+            raise e
+        finally:
+            self.connection.close()
+
+    def UpdateTestData(self,TestID,TestName,Description,Periodicity,MaxScore):
+        try:
+            cursor=self.connection.cursor()
+            cursor.callproc('usp_UpdateTest', [str(TestID),str(TestName),str(Description),str(Periodicity),str(MaxScore)])
+        except Exception as e:
+            raise e
+        finally:
+            self.connection.close()

@@ -14,12 +14,13 @@ class App(ctk.CTk):
         self.title('Airplane Management System')
         # self.bind('<Motion>',lambda event:print(event.x))
 
-        self.allAirplanesPage=AllAirplanesPage(self)
         self.homePage=HomePage(self)
-        self.testsPage=AllTestsPage(self)
         self.LoadHomePage()
         # self.allTechnicianDetailsPage=AllTechnicianDetailsPage(self,1)                    #yet to create
-        self.allTechnicianDetailsPage=AllTechnicianDetailsPage(self)                        #created now!!!
+        
+    def LoadHomePage(self):
+        self._ClearRootWindow()
+        self.homePage.pack()
 
     def _ClearRootWindow(self):
         for widget in self.pack_slaves():
@@ -27,10 +28,12 @@ class App(ctk.CTk):
 
     def LoadAllAirplanesPage(self):
         self._ClearRootWindow()
+        self.allAirplanesPage=AllAirplanesPage(self)
         self.allAirplanesPage.pack()
 
     def LoadAllTechnicianDetailsPage(self):
         self._ClearRootWindow()
+        self.allTechnicianDetailsPage=AllTechnicianDetailsPage(self)                        #created now!!!
         self.allTechnicianDetailsPage.pack()
 
     def LoadAirplaneDetailsPage(self,RegistrationNo):
@@ -43,10 +46,8 @@ class App(ctk.CTk):
         technicianDetailsPage=TechnicianDetailsPage(self,TechnicianNo)
         technicianDetailsPage.pack()
 
-    def LoadHomePage(self):
-        self._ClearRootWindow()
-        self.homePage.pack()
 
     def LoadTestsPage(self):
         self._ClearRootWindow()
+        self.testsPage=AllTestsPage(self)
         self.testsPage.pack()

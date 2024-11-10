@@ -235,13 +235,38 @@ BEGIN
                            WHERE Tech_Ssn = TechnicianSsn;
 END;
 /
--- CREATE OR REPLACE PROCEDURE USP_EditTest(
---    v_test_id IN TEST.test_id%TYPE
--- ) AS 
--- BEGIN
---    DELETE FROM test WHERE TEST_ID=v_test_id;
--- END;
--- /
+
+CREATE OR REPLACE PROCEDURE usp_UpdateTest (
+   v_test_id          IN TEST.test_id%TYPE,
+   v_Test_Name        IN Test.Test_Name%TYPE,
+   v_Test_Description IN Test.TEST_DESCRIPTION%TYPE,
+   v_Test_Periodicity IN Test.Test_Periodicity%TYPE,
+   v_Test_Max_Score   IN Test.Test_Max_Score%TYPE
+) AS
+BEGIN
+   UPDATE Test
+      SET Test_Name = v_Test_Name,
+          Test_Description = v_Test_Description,
+          test_periodicity = v_Test_Periodicity,
+          test_max_score = v_Test_Max_Score
+    WHERE TEST_ID = v_test_id;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE usp_UpdateTechnician (
+   v_Ssn     IN Technician.Ssn%TYPE,
+   v_Salary  IN Technician.Salary%TYPE,
+   v_Phno    IN Technician.Phno%TYPE,
+   v_Address IN Technician.Address%TYPE
+) AS
+BEGIN
+   UPDATE TECHNICIAN
+      SET Salary = v_Salary,
+          Phno = v_Phno,
+          Address = v_Address
+    WHERE Ssn = v_Ssn;
+END;
+/
 
 
 

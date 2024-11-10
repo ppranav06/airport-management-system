@@ -92,8 +92,7 @@ class PersonalDetailsFrame(ctk.CTkFrame):
 
 class EditableDetailsGrid(ctk.CTkFrame):
     def __init__(self, master,technicianDetails, **kwargs):
-        super().__init__(master, **kwargs,
-                         width=1100)
+        super().__init__(master, **kwargs,width=1100)
         
         self.grid_columnconfigure(0,weight=1)
         self.grid_columnconfigure(1,weight=6)
@@ -103,7 +102,6 @@ class EditableDetailsGrid(ctk.CTkFrame):
         self.ContactNo=ctk.StringVar(value=technicianDetails[3])
         self.Salary=ctk.StringVar(value=technicianDetails[2])
 
-        self.newSsn=ctk.StringVar()
         self.newAddress=ctk.StringVar()
         self.newContactNo=ctk.StringVar()
         self.newSalary=ctk.StringVar()
@@ -129,7 +127,6 @@ class EditableDetailsGrid(ctk.CTkFrame):
         self.lblContactNumberVal.grid(column=1,row=2,padx=10,sticky='w')
         self.lblSalaryVal.grid(column=1,row=3,padx=10,sticky='w')
 
-        self.txtSsn=ctk.CTkEntry(self,textvariable=self.newSsn)
         self.txtAddress=ctk.CTkEntry(self,textvariable=self.newAddress)
         self.txtContactNumber=ctk.CTkEntry(self,textvariable=self.newContactNo)
         self.txtSalary=ctk.CTkEntry(self,textvariable=self.newSalary)
@@ -141,17 +138,14 @@ class EditableDetailsGrid(ctk.CTkFrame):
         self.btnEdit.grid(row=4,column=1)
 
     def Edit(self):
-        self.newSsn.set(self.Ssn.get())
         self.newAddress.set(self.Address.get())    
         self.newContactNo.set(self.ContactNo.get())
         self.newSalary.set(self.Salary.get())
 
-        self.lblSsnVal.grid_forget()
         self.lblAddressVal.grid_forget()
         self.lblContactNumberVal.grid_forget()
         self.lblSalaryVal.grid_forget()
 
-        self.txtSsn.grid(column=1,row=0,padx=10,sticky='w')
         self.txtAddress.grid(column=1,row=1,padx=10,sticky='w')
         self.txtContactNumber.grid(column=1,row=2,padx=10,sticky='w')
         self.txtSalary.grid(column=1,row=3,padx=10,sticky='w')
@@ -161,17 +155,14 @@ class EditableDetailsGrid(ctk.CTkFrame):
         self.btnCancel.grid(row=4,column=1)
 
     def Save(self):
-        self.Ssn.set(self.newSsn.get())
         self.Address.set(self.newAddress.get())
         self.ContactNo.set(self.newContactNo.get())
         self.Salary.set(self.newSalary.get())
         
-        self.txtSsn.grid_forget()
         self.txtAddress.grid_forget()
         self.txtContactNumber.grid_forget()
         self.txtSalary.grid_forget()
 
-        self.lblSsnVal.grid(column=1,row=0,padx=10,sticky='w')
         self.lblAddressVal.grid(column=1,row=1,padx=10,sticky='w')
         self.lblContactNumberVal.grid(column=1,row=2,padx=10,sticky='w')
         self.lblSalaryVal.grid(column=1,row=3,padx=10,sticky='w')
