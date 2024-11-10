@@ -65,6 +65,7 @@ BEGIN
                            WHERE model_id = modelID;
 END;
 /
+
 CREATE OR REPLACE PROCEDURE usp_GetAirplaneInfo (
    modelID       IN MODEL.Model_Id%TYPE,
    result_cursor OUT SYS_REFCURSOR

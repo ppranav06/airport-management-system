@@ -35,7 +35,7 @@ class Tests:
         """Structure of testDetails:
         0: TESTINFO_ID
         1: TEST_ID
-        2: AIRPL_currentTestID
+        2: AIRPL_REGNO
         3: TECH_SSN
         4: PROPOSED_DATE
         5: ACTUAL_DATE 
