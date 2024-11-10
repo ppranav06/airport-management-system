@@ -15,6 +15,7 @@ class App(ctk.CTk):
         # self.bind('<Motion>',lambda event:print(event.x))
 
         self.homePage=HomePage(self)
+        self.allAirplanesPage=AllAirplanesPage(self)
         self.LoadHomePage()
         # self.allTechnicianDetailsPage=AllTechnicianDetailsPage(self,1)                    #yet to create
         
@@ -28,7 +29,6 @@ class App(ctk.CTk):
 
     def LoadAllAirplanesPage(self):
         self._ClearRootWindow()
-        self.allAirplanesPage=AllAirplanesPage(self)
         self.allAirplanesPage.pack()
 
     def LoadAllTechnicianDetailsPage(self):
