@@ -5,8 +5,8 @@ from .Connection import Connection
 
 class Technician:
     def __init__(self) -> None:
-        self.technicianData=TechnicianData(Connection())
-        self.TechnicianExpertiseData=TechnicianExpertiseData(Connection())
+        self.technicianData=TechnicianData(Connection.getInstance())
+        self.TechnicianExpertiseData=TechnicianExpertiseData(Connection.getInstance())
 
 
     def GetTechnicianData(self,Ssn):

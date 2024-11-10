@@ -7,8 +7,8 @@ import datetime,re
 
 class Tests:
     def __init__(self) -> None:
-        self.TestInfoData=TestInfoData(Connection())
-        self.TestsData=TestData(Connection())
+        self.TestInfoData=TestInfoData(Connection.getInstance())
+        self.TestsData=TestData(Connection.getInstance())
 
     def GetTestInfo(self,RegistrationNo):
         return self.TestInfoData.GetTestInfo(RegistrationNo)

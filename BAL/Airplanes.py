@@ -9,9 +9,9 @@ from typing import Iterable, Iterator
 
 class Airplanes:
     def __init__(self) -> None:
-        self.ManufacturersData=ManufacturersData(Connection())
-        self.Models=ModelData(Connection())
-        self.Airplanes=AirplaneData(Connection())
+        self.ManufacturersData=ManufacturersData(Connection.getInstance())
+        self.Models=ModelData(Connection.getInstance())
+        self.Airplanes=AirplaneData(Connection.getInstance())
 
     def GetAllManufacturers(self):
         return self.ManufacturersData.GetAllManufacturers()
@@ -30,7 +30,7 @@ class Airplanes:
         return self.Models.GetModelLookUp()
     
     def GetAirplaneInfo(self,RegistrationNo):
-        return AirCraft(self.Airplanes.GetAirplaneInfo(RegistrationNo))
+        return AirCraft(self.Airplanes.GetAirplaneInfo(RegistrationNo)[0])
     
 class AirCraft:
     """AirCraft is the object represent each aeroplane (forgive multiple terms) identified by regno."""

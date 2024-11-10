@@ -59,7 +59,7 @@ class InfoFrame(ctk.CTkFrame):
     def __init__(self, master,RegistrationNumber, **kwargs):
         super().__init__(master, **kwargs,width=250,corner_radius=5)
         aircraftObj=airplanes.GetAirplaneInfo(RegistrationNumber)
-        planeDetails=aircraftObj.Details[0]
+        planeDetails=aircraftObj.Details
         planeStatus=aircraftObj.status
         self.lblManufacturer=ctk.CTkLabel(master=self,text='Manufacturer')
         self.lblManufacturer.grid(row=0,column=0,padx=10,sticky='w')
