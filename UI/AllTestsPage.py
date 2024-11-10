@@ -81,7 +81,7 @@ class InsertRow(ctk.CTkFrame):
         self.btnInsert=ctk.CTkButton(self,text='Create',
                                      command=self.Create)
         self.btnCancel=ctk.CTkButton(self,text='Cancel',
-                                     command=rootPage.testsPage.pack())
+                                     command=self.Cancel)
         
         self.grid_columnconfigure(0, weight=1,uniform='a')
         self.grid_columnconfigure(1, weight=1,uniform='a')
@@ -110,10 +110,11 @@ class InsertRow(ctk.CTkFrame):
                 test_periodicity,
                 test_description
             )
+            messagebox.showinfo(title="Information", message="Added new test successfully")
             rootPage.LoadTestsPage()
         except Exception as e:
-            # need a dialog box here!
-            raise e
+            # need a (better) dialog box here!
+            messagebox.showerror(title='ERROR', message=e)
         
     def Cancel(self):
         rootPage.LoadTestsPage()

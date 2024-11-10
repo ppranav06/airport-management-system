@@ -49,7 +49,8 @@ CREATE OR REPLACE PROCEDURE usp_GetAllTests (
 ) AS
 BEGIN
    OPEN result_cursor FOR SELECT *
-                            FROM Test;
+                            FROM Test
+                            ORDER BY TEST_ID;
    -- Stores the template tests in cursor
 END;
 /
