@@ -142,11 +142,17 @@ class ModelsFrame(ctk.CTkScrollableFrame):
  
 class AirplanesFrame(ctk.CTkScrollableFrame):
     def __init__(self, master,modelID, **kwargs):
-        super().__init__(master, **kwargs,height=700,width=380)
+        super().__init__(master, **kwargs,height=700,width=380,fg_color='white')
         root=self.master.master.master.master.master.master
 
-        for plane in airplanes.GetAirplanes(modelID):
-            btn=ctk.CTkButton(self,text=plane[0],command=lambda m=plane[0]:root.LoadAirplaneDetailsPage(m))
+        for aircraft in airplanes.GetAirplanes(modelID):
+            if isinstance(aircraft.State,Airplanes.TestsPendingState):
+                color='#cd581c'
+                hoverColor='#a84817'
+            if isinstance(aircraft.State,Airplanes.TestsDoneState):
+                color='#2596be'
+                hoverColor='#1e7998'
+            btn=ctk.CTkButton(self,text=aircraft.Details[0],command=lambda m=aircraft.Details[0]:root.LoadAirplaneDetailsPage(m),fg_color=color,hover_color=hoverColor)
             btn.pack()
 
     def destroy(self):

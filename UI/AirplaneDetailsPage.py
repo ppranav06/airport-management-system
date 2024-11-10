@@ -58,7 +58,9 @@ class AirplaneDetailsFrame(ctk.CTkFrame):
 class InfoFrame(ctk.CTkFrame):
     def __init__(self, master,RegistrationNumber, **kwargs):
         super().__init__(master, **kwargs,width=250,corner_radius=5)
-        planeDetails=airplanes.GetAirplaneInfo(RegistrationNumber)[0]
+        aircraftObj=airplanes.GetAirplaneInfo(RegistrationNumber)
+        planeDetails=aircraftObj.Details[0]
+        planeStatus=aircraftObj.status
         self.lblManufacturer=ctk.CTkLabel(master=self,text='Manufacturer')
         self.lblManufacturer.grid(row=0,column=0,padx=10,sticky='w')
         self.lblManufacturerVal=ctk.CTkLabel(master=self,text=planeDetails[4])
@@ -94,6 +96,10 @@ class InfoFrame(ctk.CTkFrame):
         self.lblFirstFlightVal=ctk.CTkLabel(master=self,text=planeDetails[2])
         self.lblFirstFlightVal.grid(row=6,column=1,padx=10,sticky='w')
 
+        self.lblStatus=ctk.CTkLabel(master=self,text='Status')
+        self.lblStatus.grid(row=7,column=0,padx=10,sticky='w')
+        self.lblStatusVal=ctk.CTkLabel(master=self,text=planeStatus)
+        self.lblStatusVal.grid(row=7,column=1,padx=10,sticky='w')
 class TestsFrame(ctk.CTkScrollableFrame):
     def __init__(self, master,RegistrationNumber, **kwargs):
         super().__init__(master, **kwargs,height=350,width=1150)
@@ -303,8 +309,8 @@ class ExtraDetails(ctk.CTkFrame):
         self.lblActualTestDateVal=ctk.CTkLabel(self,text=TestDetails[5],anchor='w',justify='left')
         self.lblNextExpectedDateVal=ctk.CTkLabel(self,text=TestDetails[5]+relativedelta(months=TestDetails[10]),
                                                  anchor='w',justify='left')
-        self.lblHoursSpentVal=ctk.CTkLabel(self,text=str(TestDetails[5])+" hours",anchor='w',justify='left')
-        self.lblTechnicianNoVal=ctk.CTkLabel(self,text=TestDetails[2],anchor='w',justify='left')
+        self.lblHoursSpentVal=ctk.CTkLabel(self,text=str(TestDetails[6])+" hours",anchor='w',justify='left')
+        self.lblTechnicianNoVal=ctk.CTkLabel(self,text=TestDetails[3],anchor='w',justify='left')
         self.lblPeriodicityVal=ctk.CTkLabel(self,text=TestDetails[10],anchor='w',justify='left')
         self.lblMaxScoreVal=ctk.CTkLabel(self,text=TestDetails[11],anchor='w',justify='left')
         

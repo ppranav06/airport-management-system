@@ -18,7 +18,7 @@ class App(ctk.CTk):
         self.allAirplanesPage=AllAirplanesPage(self)
         self.LoadHomePage()
         # self.allTechnicianDetailsPage=AllTechnicianDetailsPage(self,1)                    #yet to create
-        
+
     def LoadHomePage(self):
         self._ClearRootWindow()
         self.homePage.pack()
