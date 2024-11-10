@@ -60,9 +60,9 @@ class TestsPendingState(TestsState):
     def refreshState(self):
         super().refreshState()
         if not self.pendingTests:
-            self.aircraft.SetState(TestsDoneState)
+            self.aircraft.SetState(TestsCompleteState)
 
-class TestsDoneState(TestsState):
+class TestsCompleteState(TestsState):
     def __init__(self,aircraft) -> None:
         super().__init__(aircraft)
         aircraft.status="Tests Done"

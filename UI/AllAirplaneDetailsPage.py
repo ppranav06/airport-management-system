@@ -149,7 +149,7 @@ class AirplanesFrame(ctk.CTkScrollableFrame):
             if isinstance(aircraft.State,Airplanes.TestsPendingState):
                 color='#cd581c'
                 hoverColor='#a84817'
-            if isinstance(aircraft.State,Airplanes.TestsDoneState):
+            if isinstance(aircraft.State,Airplanes.TestsCompleteState):
                 color='#2596be'
                 hoverColor='#1e7998'
             btn=ctk.CTkButton(self,text=aircraft.Details[0],command=lambda m=aircraft.Details[0]:root.LoadAirplaneDetailsPage(m),fg_color=color,hover_color=hoverColor)
