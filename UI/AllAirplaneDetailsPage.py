@@ -26,20 +26,27 @@ class SideFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=250)
 
-        self.btnHome=ctk.CTkButton(self,text='Home',command=self.master.master.LoadHomePage)
-        self.btnHome.pack(side=ctk.BOTTOM)
 
-        self.btnBack=ctk.CTkButton(self,text='Back',command=self.master.master.LoadHomePage)
-        self.btnBack.pack(side=ctk.BOTTOM)
+        self.canvas=ctk.CTkCanvas(self,width=250,height=1000)
+        self.canvas.pack(fill='both')
+        self.bgLabel=ctk.CTkLabel(self.canvas,text='',image=ctk.CTkImage(light_image=PIL.Image.open(r'Images\SideFrameBg.png'),size=(250,700)))
+        self.bgLabel.place(x=0,y=0)
+
+        self.btnHome=ctk.CTkButton(self.canvas,text='Home',bg_color='#2596BE',command=self.master.master.LoadHomePage)
+        self.btnHome.place(y=670,x=55)
+
+        self.btnBack=ctk.CTkButton(self.canvas,text='Back',bg_color='#2596be',command=self.master.master.LoadHomePage)
+        self.btnBack.place(y=640,x=55)
+        
         
 class AllAirplanesFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs,height=700,width=1150,fg_color='white')
         
         self.grid_columnconfigure((0,1,2),weight=1)
-        self.grid_rowconfigure(0,weight=1)
-        self.grid_rowconfigure(1,weight=1)
-        self.grid_rowconfigure(2,weight=10)
+        # self.grid_rowconfigure(0,weight=1)
+        # self.grid_rowconfigure(1,weight=1)
+        # self.grid_rowconfigure(2,weight=10)
 
         self.manufactureresFrame=ManufacturersFrame(self)
         self.manufactureresFrame.grid(column=0,row=2,sticky='we',padx=20,pady=20)
@@ -50,13 +57,16 @@ class AllAirplanesFrame(ctk.CTkFrame):
         self.airplanesPlaceHolderFrame=AirplanesPlaceHolderFrame(self)
         self.airplanesPlaceHolderFrame.grid(column=2,row=2,sticky='we',padx=20,pady=20)
 
-        self.lblManufacturers=ctk.CTkLabel(self,text='MANUFACTURER',font=ctk.CTkFont(size=20,weight='bold'))
-        self.lblModels=ctk.CTkLabel(self,text='MODELS',font=ctk.CTkFont(size=20,weight='bold'))
-        self.lblAirplanes=ctk.CTkLabel(self,text='AIRPLANE REGISTRATION NO',font=ctk.CTkFont(size=20,weight='bold'))
+        self.lblManufacturers=ctk.CTkLabel(self,text='Manufacturers',font=ctk.CTkFont(size=20,weight='bold',family='Kode Mono'),text_color='white',height=60,
+                                           image=ctk.CTkImage(light_image=PIL.Image.open(r'Images\ManufacturersHeading.png'),size=(400,70)))
+        self.lblModels=ctk.CTkLabel(self,text='Models',font=ctk.CTkFont(size=20,weight='bold',family='Kode Mono'),text_color='white',height=60,
+                                           image=ctk.CTkImage(light_image=PIL.Image.open(r'Images\ModelsHeading.png'),size=(400,70)))
+        self.lblAirplanes=ctk.CTkLabel(self,text='Airplane Registration No',font=ctk.CTkFont(size=20,weight='bold',family='Kode Mono'),text_color='white',height=60,
+                                           image=ctk.CTkImage(light_image=PIL.Image.open(r'Images\AirplanesHeading.png'),size=(400,70)))
 
-        self.lblManufacturers.grid(row=0,column=0,pady=20)
-        self.lblModels.grid(row=0,column=1,pady=20)
-        self.lblAirplanes.grid(row=0,column=2,pady=20)
+        self.lblManufacturers.grid(row=0,column=0,pady=5,padx=10,sticky='news')
+        self.lblModels.grid(row=0,column=1,pady=5,padx=10,sticky='news')
+        self.lblAirplanes.grid(row=0,column=2,pady=5,padx=10,sticky='news')
 
         self.SelectedManufacturer=ctk.StringVar(value='')
         self.SelectedModel=ctk.StringVar(value='')
@@ -74,7 +84,7 @@ class AllAirplanesFrame(ctk.CTkFrame):
 
 class ManufacturersFrame(ctk.CTkScrollableFrame):
     def __init__(self, master, **kwargs):
-        super().__init__(master, **kwargs,height=700,width=380,fg_color='white')
+        super().__init__(master, **kwargs,height=560,width=380,fg_color='white')
          
         # ManufacturerImage=ctk.CTkImage(light_image=PIL.Image.open(r'Images\6131.webp'),size=(250,150))
         for manufacturerID,manufacturerName in airplanes.GetAllManufacturers():
@@ -101,18 +111,17 @@ class ManufacturersFrame(ctk.CTkScrollableFrame):
 
 class ModelsPlaceHolderFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
-        super().__init__(master, **kwargs,height=700,width=380)
+        super().__init__(master, **kwargs,height=560,width=380)
 
         self.modelsFrame=None
 
 class AirplanesPlaceHolderFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
-        super().__init__(master, **kwargs,height=700,width=380)
-
+        super().__init__(master, **kwargs,height=560,width=380)
         self.airplanesFrame=None
 class ModelsFrame(ctk.CTkScrollableFrame):
     def __init__(self, master,manufacturerID, **kwargs):
-        super().__init__(master, **kwargs,height=700,width=380,fg_color='white')
+        super().__init__(master, **kwargs,height=560,width=380,fg_color='white')
         for modelData in airplanes.GetModels(manufacturerID):
             ModelImage=ctk.CTkImage(light_image=images.ModelImages[modelData[1]],size=(300,200))
             btn=ctk.CTkButton(self,
@@ -142,7 +151,7 @@ class ModelsFrame(ctk.CTkScrollableFrame):
  
 class AirplanesFrame(ctk.CTkScrollableFrame):
     def __init__(self, master,modelID, **kwargs):
-        super().__init__(master, **kwargs,height=700,width=380,fg_color='white')
+        super().__init__(master, **kwargs,height=560,width=380,fg_color='white')
         root=self.master.master.master.master.master.master
 
         for aircraft in airplanes.GetAirplanes(modelID):

@@ -132,7 +132,7 @@ class PendingTestsFrame(ctk.CTkScrollableFrame):
     def __init__(self, master,RegistrationNumber, **kwargs):
         super().__init__(master, **kwargs,height=350,width=1150)
 
-        testDetails=tests.GetTestInfo(RegistrationNumber)
+        # testDetails=tests.GetTestInfo(RegistrationNumber)
 
         self.PendingTestRows={}
         self.ExpandedPendingTestPanels={}
@@ -203,7 +203,7 @@ class PendingTestRow(ctk.CTkFrame):
         self.lblTestNameVal.grid(column=1,row=0)
         self.testVariablesInsertionFrame.grid(column=2,row=0)
         self.lblProposedTestDate.grid(column=3,row=0)
-        self.btnSubmit.grid(column=5,row=0)
+        self.btnSubmit.grid(column=4,row=0)
 
     def Insert(self,TestDetails):
         try:

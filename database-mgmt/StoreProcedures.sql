@@ -49,8 +49,8 @@ CREATE OR REPLACE PROCEDURE usp_GetAllTests (
 ) AS
 BEGIN
    OPEN result_cursor FOR SELECT *
-                            FROM Test
-                            ORDER BY TEST_ID;
+                                                   FROM Test
+                           ORDER BY TEST_ID;
    -- Stores the template tests in cursor
 END;
 /
@@ -283,6 +283,25 @@ BEGIN
           Phno = v_Phno,
           Address = v_Address
     WHERE Ssn = v_Ssn;
+END;
+/
+
+CREATE OR REPLACE TRIGGER ScoreUnderMaxScore BEFORE
+   INSERT ON Test_Info
+   FOR EACH ROW
+DECLARE
+   maxScore Test.TEST_MAX_SCORE%TYPE;
+BEGIN
+   SELECT Test_Max_Score
+     INTO maxScore
+     FROM Test
+    WHERE Test_Id = :NEW.Test_id;
+   IF :NEW.Score > maxScore THEN
+      RAISE_APPLICATION_ERROR(
+         -20001,
+         'score must be below max score'
+      );
+   END IF;
 END;
 /
 

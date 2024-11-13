@@ -1,4 +1,5 @@
 -- creating the schema
+DROP SEQUENCE TestInfo_Id_Seq;
 DROP SEQUENCE Model_Id_Seq;
 DROP TABLE Test_Info;
 DROP TABLE Test;
@@ -69,13 +70,13 @@ CREATE TABLE Test (
 
 CREATE TABLE Test_Info (
    TestInfo_ID   VARCHAR(10),
-   Test_Id       VARCHAR(4)   NOT NULL,
-   Airpl_Regno   VARCHAR(10)  NOT NULL,
-   Tech_Ssn      NUMBER(9)    NOT NULL,
-   Proposed_Date DATE         NOT NULL,
+   Test_Id       VARCHAR(4) NOT NULL,
+   Airpl_Regno   VARCHAR(10) NOT NULL,
+   Tech_Ssn      NUMBER(9) NOT NULL,
+   Proposed_Date DATE NOT NULL,
    Actual_Date   DATE,
-   Hours         INTEGER      NOT NULL,
-   Score         INTEGER      NOT NULL,
+   Hours         INTEGER NOT NULL,
+   Score         INTEGER NOT NULL,
    CONSTRAINT Test_Info_References_Test FOREIGN KEY ( Test_Id )
       REFERENCES Test ( Test_Id ),
    CONSTRAINT Test_Info_References_Airplane FOREIGN KEY ( Airpl_Regno )
@@ -134,4 +135,3 @@ COMMIT;
 -- var c refcursor
 -- exec usp_GetAllManufacturers(:c)
 -- print c
-

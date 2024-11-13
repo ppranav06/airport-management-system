@@ -1,4 +1,3 @@
-
 -- INSERTION OF VALUES FOR AMS DATABASE
 
 -- MANUFACTURER
@@ -308,47 +307,147 @@ INSERT INTO Technician VALUES ( 112345678,
                                 1987654321,
                                 '707 Ash St, Westfield' );
 
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 123456789,'M01' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 123456789,'M02' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 234567890,'M09' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 234567890,'M04' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 345678901,'M05' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 345678901,'M06' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 456789012,'M07' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 456789012,'M07' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 567890123,'M09' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 567890123,'M01' );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 123456789,
+           'M01',
+           1 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 123456789,
+           'M02',
+           1 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 234567890,
+           'M09',
+           2 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 234567890,
+           'M04',
+           1 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 345678901,
+           'M05',
+           2 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 345678901,
+           'M06',
+           5 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 456789012,
+           'M07',
+           6 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 456789012,
+           'M07',
+           2 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 567890123,
+           'M09',
+           4 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 567890123,
+           'M01',
+           2 );
 
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 678901234,'M01' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 678901234,'M02' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 789012345,'M03' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 789012345,'M04' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 890123456,'M03' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 890123456,'M06' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 901234567,'M05' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 901234567,'M08' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 112345678,'M09' );
-INSERT INTO Technician_Expertise (TECH_SSN, AIRPLANE_MODEL) 
-                           VALUES ( 112345678,'M010' );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 678901234,
+           'M01',
+           3 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 678901234,
+           'M02',
+           3 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 789012345,
+           'M03',
+           5 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 789012345,
+           'M04',
+           4 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 890123456,
+           'M03',
+           1 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 890123456,
+           'M06',
+           6 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 901234567,
+           'M05',
+           7 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 901234567,
+           'M08',
+           1 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 112345678,
+           'M09',
+           2 );
+INSERT INTO Technician_Expertise (
+   TECH_SSN,
+   AIRPLANE_MODEL,
+   Years_Of_Experience
+) VALUES ( 112345678,
+           'M010',
+           1 );
 
 SELECT *
   FROM Technician_Expertise;
@@ -452,7 +551,7 @@ INSERT INTO Test_Info (
            TO_DATE('2024-01-10','YYYY-MM-DD'),
            TO_DATE('2024-01-15','YYYY-MM-DD'),
            7,
-           70 );
+           40 );
 INSERT INTO Test_Info (
    Test_Id,
    Airpl_Regno,
@@ -497,7 +596,7 @@ INSERT INTO Test_Info (
            TO_DATE('2023-03-15','YYYY-MM-DD'),
            TO_DATE('2023-03-20','YYYY-MM-DD'),
            3,
-           80 );
+           45 );
 INSERT INTO Test_Info (
    Test_Id,
    Airpl_Regno,
@@ -542,7 +641,7 @@ INSERT INTO Test_Info (
            TO_DATE('2023-06-01','YYYY-MM-DD'),
            TO_DATE('2023-06-05','YYYY-MM-DD'),
            4,
-           92 );
+           42 );
 INSERT INTO Test_Info (
    Test_Id,
    Airpl_Regno,
@@ -557,7 +656,7 @@ INSERT INTO Test_Info (
            TO_DATE('2023-07-10','YYYY-MM-DD'),
            TO_DATE('2023-07-15','YYYY-MM-DD'),
            3,
-           88 );
+           78 );
 INSERT INTO Test_Info (
    Test_Id,
    Airpl_Regno,
@@ -633,7 +732,7 @@ INSERT INTO Test_Info (
            TO_DATE('2023-01-15','YYYY-MM-DD'),
            TO_DATE('2023-01-20','YYYY-MM-DD'),
            5,
-           92 );
+           48 );
 INSERT INTO Test_Info (
    Test_Id,
    Airpl_Regno,
@@ -648,7 +747,7 @@ INSERT INTO Test_Info (
            TO_DATE('2023-01-15','YYYY-MM-DD'),
            TO_DATE('2023-01-20','YYYY-MM-DD'),
            5,
-           92 );
+           62 );
 INSERT INTO Test_Info (
    Test_Id,
    Airpl_Regno,
@@ -693,7 +792,7 @@ INSERT INTO Test_Info (
            TO_DATE('2023-03-20','YYYY-MM-DD'),
            TO_DATE('2023-03-25','YYYY-MM-DD'),
            3,
-           83 );
+           50 );
 INSERT INTO Test_Info (
    Test_Id,
    Airpl_Regno,
@@ -723,7 +822,7 @@ INSERT INTO Test_Info (
            TO_DATE('2023-05-10','YYYY-MM-DD'),
            TO_DATE('2023-05-15','YYYY-MM-DD'),
            6,
-           78 );
+           75 );
 INSERT INTO Test_Info (
    Test_Id,
    Airpl_Regno,
@@ -738,7 +837,7 @@ INSERT INTO Test_Info (
            TO_DATE('2023-06-05','YYYY-MM-DD'),
            TO_DATE('2023-06-10','YYYY-MM-DD'),
            4,
-           91 );
+           41 );
 INSERT INTO Test_Info (
    Test_Id,
    Airpl_Regno,
@@ -753,7 +852,7 @@ INSERT INTO Test_Info (
            TO_DATE('2023-07-15','YYYY-MM-DD'),
            TO_DATE('2023-07-20','YYYY-MM-DD'),
            3,
-           89 );
+           59 );
 INSERT INTO Test_Info (
    Test_Id,
    Airpl_Regno,

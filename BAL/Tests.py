@@ -29,9 +29,11 @@ class Tests:
     
     def CreateNewTests(self,RegistrationNo):
         """Creates new test for an airplane in test_info table"""
+        allTestsLookUp=self.GetAllTestsData()
         newTests=[]
         LatestTests={}
         testDetails=self.GetTestInfo(RegistrationNo)
+        TestsDoneAtleastOnce={x[1] for x in testDetails}
         """Structure of testDetails:
         0: TESTINFO_ID
         1: TEST_ID
@@ -63,6 +65,10 @@ class Tests:
                 newTest[6]=None
                 newTest[7]=None
                 newTests.append(newTest)
+
+        for test in allTestsLookUp:
+            if test[0] not in TestsDoneAtleastOnce:
+                newTests.append([None,test[0],RegistrationNo,None,datetime.datetime.now().date(),None,None,test[2],test[1],test[3],test[4]])
 
         return newTests
 
