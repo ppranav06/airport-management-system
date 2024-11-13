@@ -6,18 +6,29 @@ from .TechnicianDetailsPage import TechnicianDetailsPage
 from .AllTestsPage import AllTestsPage
 from .HomePage import HomePage
 
+from BAL.Logger import Logger
+
+ctk.set_appearance_mode('light')
+loggerInstance = Logger()
+
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.geometry('1400x700')
         self.resizable(False,False)
         self.title('Airplane Management System')
+        self.report_callback_exception = self.handle_exception
         # self.bind('<Motion>',lambda event:print(event.x))
 
         self.homePage=HomePage(self)
         self.allAirplanesPage=AllAirplanesPage(self)
         self.LoadHomePage()
-        # self.allTechnicianDetailsPage=AllTechnicianDetailsPage(self,1)                    #yet to create
+
+    def handle_exception(exception, value, traceback):
+        """Handles exceptions after passing them to log"""
+        # loggerInstance.log(exception, value, traceback)
+        # ctk.CTk.report_callback_exception(exception, value, traceback) # calling the original function
+        print(exception, value, traceback)
 
     def LoadHomePage(self):
         self._ClearRootWindow()
@@ -33,7 +44,7 @@ class App(ctk.CTk):
 
     def LoadAllTechnicianDetailsPage(self):
         self._ClearRootWindow()
-        self.allTechnicianDetailsPage=AllTechnicianDetailsPage(self)                        #created now!!!
+        self.allTechnicianDetailsPage=AllTechnicianDetailsPage(self)
         self.allTechnicianDetailsPage.pack()
 
     def LoadAirplaneDetailsPage(self,RegistrationNo):

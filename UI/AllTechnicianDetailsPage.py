@@ -12,7 +12,7 @@ class AllTechnicianDetailsPage(ctk.CTkFrame):
         super().__init__(master, **kwargs,height=700,width=1400)
         global rootPage
         rootPage=self.master
-        
+        print(rootPage.report_callback_exception)
         self.technicianSideFrame=SideFrame(self)
         self.technicianSideFrame.pack(side=ctk.LEFT)
         self.technicianSideFrame.pack_propagate(0)
