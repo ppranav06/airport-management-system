@@ -8,6 +8,7 @@ from .HomePage import HomePage
 
 from BAL.Logger import Logger
 
+ctk.set_appearance_mode('light')
 loggerInstance = Logger()
 
 class App(ctk.CTk):
